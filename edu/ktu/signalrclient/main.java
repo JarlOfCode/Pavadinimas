@@ -47,21 +47,101 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
 	static int windowHeight = 500;
+	EnemyFactory EF = new EnemyFactory();
+	GameSingleton GS = GameSingleton.getInstance();
 	
 	static String[] planeTypes = {"src/plane.jpg", "src/bomber.jpg", "src/helicopter.jpg"};
 	
 	public static void main(String[] args) {
-		main spempelis = new main();
-		spempelis.gui();
-		spempelis.setVisible(true);
+		main GM = new main();
+		GM.gui();
+		GM.setVisible(true);
+		
+		
 	}
-
 	
-	// Draw'ina lentele
+	// MANO RASYTI
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	    String command = ((JButton) e.getSource()).getActionCommand();
+	    JButton button = buttonCache.get(command);
+	    if(button.getText() == "Spawn Random Enemy") {
+	    	SendMessage("JavaClient", command);
+	    	Random random = new Random();
+	    	int ran = random.nextInt(5 - 1) + 1;
+	    	Enemy test = null;
+	    	if(ran == 1) {
+	    		test = EF.getEnemy("circle");
+	    	}
+	    	else if(ran == 2) {
+	    		test = EF.getEnemy("spiral");
+	    	}
+	    	else if(ran == 3) {
+	    		test = EF.getEnemy("continued");
+	    	}
+	    	else if(ran == 4) {
+	    		test = EF.getEnemy("burst");
+	    	}
+	    	
+			test.Spawn();		
+	    }
+	    else if(button.getText() == "Get Time and Score") {
+	    	SendMessage("JavaClient", command);
+	    	chatBox.append("\nTime: " + GS.getTime());
+	    	chatBox.append("\nScore: " + GS.getScore());
+	    }
+	    else if(button.getText() == "Spawn a Player") {
+	    	SendMessage("JavaClient", command);
+	    	drawPlayer();
+	    }
+	}
+	
+	public static void drawEnemy(String type) {
+		Graphics g = drawingPanel.getGraphics();
+		//g.clearRect(0, 0, drawingPanel.getWidth(), drawingPanel.getHeight());
+		Runtime.getRuntime().gc();
+		
+		drawSingleEnemy(type);
+	}
+	
+	public static void drawSingleEnemy(String type){
+		//class is not used
+		Graphics g = drawingPanel.getGraphics();
+		
+		BufferedImage image;
+		
+		File imageFile = null;
+		
+		try {
+			if(type == "circle") {
+				imageFile = new File("src/enemy_1.png");
+			}
+			else if(type == "spiral") {
+				imageFile = new File("src/enemy_2.jpg");
+			}
+			else if(type == "continued") {
+				imageFile = new File("src/enemy_3.jpg");
+			}
+			else if(type == "burst") {
+				imageFile = new File("src/enemy_4.jpg");
+			}
+			image = ImageIO.read(imageFile );
+			
+			g.drawImage(image, getRandomX(), getRandomY(), null);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	// COPY PASTE
 	public void gui() {
 		
 		setSize(windowWidth * 2, windowHeight *2 );
-		setTitle("8===D");
+		setTitle("BulletHell");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 		
@@ -75,7 +155,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		//drawingPanel = new JPanel();	
 		drawingPanel.setBackground(Color.WHITE);
 		drawingPanel.setSize(windowWidth, windowHeight);
-		setTitle("8===D");
 		setLocationRelativeTo(null);
 		workPanel.add(drawingPanel);//, BorderLayout.NORTH);
 		
@@ -88,27 +167,32 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		//chatPanel.add(chatBox);
 		chatBox.setWrapStyleWord(true);
 		//chatBox.setEditable(false);
-		chatBox.append("(|=====B");
+		chatBox.append("SINGLETON TIME AND SCORE");
 		workPanel.add(chatPanel);//, BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
 		add(buttonsPanel, BorderLayout.SOUTH);
 		
-		JButton button = new JButton("Fire");
+		//Savi
+		
+		
+		JButton button = new JButton("Spawn Random Enemy");
 		button.addActionListener(this);
 		buttonsPanel.add(button, BorderLayout.CENTER);
 		buttonCache.put(button.getText(), button);
 		
-		JButton buttonLeft = new JButton("Left");
+		JButton buttonLeft = new JButton("Get Time and Score");
 		buttonLeft.addActionListener(this);
 		buttonsPanel.add(buttonLeft, BorderLayout.WEST);
 		buttonCache.put(buttonLeft.getText(), buttonLeft);
 		
-		JButton buttonRight = new JButton("Right");
+		JButton buttonRight = new JButton("Spawn a Player");
 		buttonRight.addActionListener(this);
 		buttonsPanel.add(buttonRight, BorderLayout.EAST);
 		buttonCache.put(buttonRight.getText(), buttonRight);
+		
+		// Copy + Paste
 		
 		JButton buttonUp = new JButton("Up");
 		buttonUp.addActionListener(this);
@@ -310,30 +394,17 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
         }
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	    String command = ((JButton) e.getSource()).getActionCommand();
-	    JButton button = buttonCache.get(command);
-	    if (null != button) {
-	        // do something with the button
-	    	//System.out.println(button + ":" + command);
-	    	
-	    	SendMessage("JavaClient", command);
-	    	
-	    	draw();
-	    }
-	}
+	
 	
 	public void draw() {
 		Graphics g = drawingPanel.getGraphics();
-		g.clearRect(0, 0, drawingPanel.getWidth(), drawingPanel.getHeight());
+		//g.clearRect(0, 0, drawingPanel.getWidth(), drawingPanel.getHeight());
 		Runtime.getRuntime().gc();
 		
 		drawSinglePlane();
 	}
 	
-	public  void drawSinglePlane(){
+	public void drawSinglePlane(){
 		//class is not used
 		Graphics g = drawingPanel.getGraphics();
 		
@@ -342,6 +413,26 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			String fileName =  getRandomType();  //"src/plane.jpg";
 			//File imageFile = new File(fileName);
 			File imageFile = new File("src/bomber.jpg");
+			//System.out.println(imageFile.getAbsolutePath() );			
+			image = ImageIO.read(imageFile );
+			
+			g.drawImage(image, getRandomX(), getRandomY(), null);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	public void drawPlayer() {
+		Graphics g = drawingPanel.getGraphics();
+		Runtime.getRuntime().gc();
+		
+		BufferedImage image;
+		try {
+			String fileName =  getRandomType();  //"src/plane.jpg";
+			//File imageFile = new File(fileName);
+			File imageFile = new File("src/player.jpg");
 			//System.out.println(imageFile.getAbsolutePath() );			
 			image = ImageIO.read(imageFile );
 			
@@ -372,6 +463,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			e1.printStackTrace();
 		}
 	}
+	
+	
 	
 	public static int getRandomX(){
 		return (int)(Math.random()*(windowWidth-100));
