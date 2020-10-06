@@ -8,6 +8,12 @@ public class GameSingleton {
 	private int time;
 	private int score;
 	private int start_time;
+	private String notification;
+	//private List<Channel> channels = new ArrayList<>();
+	
+	//public void addObserver(Channel channel){
+	//	this.channels.add()
+	//}
 	
 	private GameSingleton() {
 		time = 0;
@@ -29,5 +35,10 @@ public class GameSingleton {
 	
 	public int getScore() {
 		return score;
+	}
+	
+	//Observer enemy died
+	public String sendMessageED() {
+		return "Enemy died";
 	}
 }

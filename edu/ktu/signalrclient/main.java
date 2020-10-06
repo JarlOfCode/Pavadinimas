@@ -55,8 +55,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public static void main(String[] args) {
 		main GM = new main();
 		GM.gui();
-		GM.setVisible(true);
-		
+		GM.setVisible(true);	
 		
 	}
 	
@@ -94,9 +93,15 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    }
 	    else if(button.getText() == "Spawn a Player") {
 	    	SendMessage("JavaClient", command);
-	    	drawPlayer();
+	    	drawPlayer();	    	
+	    }
+	    else if(button.getText() == "Observer") {
+	    	SendMessage("JavaClient", command);
+	    	
 	    }
 	}
+	
+	
 	
 	public static void drawEnemy(String type) {
 		Graphics g = drawingPanel.getGraphics();
@@ -199,7 +204,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		buttonsPanel.add(buttonUp, BorderLayout.NORTH);
 		buttonCache.put(buttonUp.getText(), buttonUp);
 		
-		JButton buttonDown = new JButton("Down");
+		JButton buttonDown = new JButton("Observer");
 		buttonDown.addActionListener(this);
 		buttonsPanel.add(buttonDown, BorderLayout.SOUTH);
 		buttonCache.put(buttonDown.getText(), buttonDown);
