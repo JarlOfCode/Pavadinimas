@@ -1,7 +1,8 @@
 package edu.ktu.signalrclient;
 
-public class EnemyFactory {
+public class EnemyFactory implements AbstractFactory<Enemy>{
 	//use getEnemy method to get object of type Enemy
+	@Override
 	public Enemy getEnemy(String enemyType) {
 		if(enemyType == null) {
 			return null;
