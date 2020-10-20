@@ -9,3 +9,5 @@
 /AbstractFactory.class
 /FactoryProvider.class
 /Notifications.class
+/IBuilder.class
+/ContinuosEnemyBuilder.class
