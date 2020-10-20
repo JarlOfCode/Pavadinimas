@@ -11,3 +11,14 @@
 /Notifications.class
 /IBuilder.class
 /ContinuosEnemyBuilder.class
+/Bullet.class
+/SlowBullet.class
+/FastBullet.class
+/Big_Fast_Bullet.class
+/Big_Slow_Bullet.class
+/Small_Fast_Bullet.class
+/Small_Slow_Bullet.class
+/SlowFactory.class
+/FastFactory.class
+/BigBulletFactory.class
+/SmallBulletFactory.class

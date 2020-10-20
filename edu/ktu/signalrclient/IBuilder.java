@@ -17,6 +17,10 @@ public abstract class IBuilder {
 		// configurator.add(+ / "base")
 	}
 	
+	public void reset() {
+		CE = new ContinuedEnemy();
+	}
+	
 	public abstract IBuilder addBoots();
 	
 }

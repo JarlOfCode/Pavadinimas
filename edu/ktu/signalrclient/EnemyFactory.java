@@ -3,12 +3,11 @@ package edu.ktu.signalrclient;
 import java.util.Random;
 
 //implements AbstractFactory<Enemy>
-public class EnemyFactory implements AbstractFactory<Enemy>{
+public class EnemyFactory{
 	
-	
+	IBuilder builder = new ContinuosEnemyBuilder();
 	
 	//use getEnemy method to get object of type Enemy
-	@Override
 	public Enemy getEnemy(String enemyType) {
 		if(enemyType == null) {
 			return null;
@@ -18,9 +17,10 @@ public class EnemyFactory implements AbstractFactory<Enemy>{
 		}
 		else if(enemyType.equalsIgnoreCase("Continued")) {
 			//return new ContinuedEnemy();
-			IBuilder builder = new ContinuosEnemyBuilder();
+			
 			Random random = new Random();
 			int ran = random.nextInt(3 - 1)+1;
+			builder.reset();
 			if(ran == 1){
 				builder.addBoots();
 			}

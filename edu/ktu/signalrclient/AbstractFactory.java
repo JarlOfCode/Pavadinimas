@@ -1,15 +1,9 @@
 package edu.ktu.signalrclient;
 
-public interface AbstractFactory<T> {
+public abstract class AbstractFactory {
 	
-	//GetType
-	T getEnemy(String enemyType);
+	public abstract FastBullet createFastBullet( );
 	
+	public abstract SlowBullet createSlowBullet( );
 	
-
-	//Create BurstE
-	//Create CircleE
-	//Create ContinuedE
-	//??
-
 }
