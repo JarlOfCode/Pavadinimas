@@ -32,11 +32,14 @@ import com.microsoft.signalr.HubConnectionState;
 
 import io.reactivex.*;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
-
+import java.util.concurrent.TimeUnit;
 import java.util.Random;
-
+import java.awt.event.*;
 
 public class main extends JFrame implements ActionListener, Action2<String, String>{
 
@@ -52,11 +55,43 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	static String[] planeTypes = {"src/plane.jpg", "src/bomber.jpg", "src/helicopter.jpg"};
 	
-	public static void main(String[] args) {
+	
+	
+	static List<Enemy> enemies = new ArrayList<Enemy>();
+	
+	
+	
+	public static void main(String[] args) throws IOException, InterruptedException {
 		main GM = new main();
 		GM.gui();
 		GM.setVisible(true);	
+		Graphics g = drawingPanel.getGraphics();
 		
+		javax.swing.Timer t = new javax.swing.Timer(40, new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            drawingPanel.repaint(40);
+	        }
+	     });
+		
+		while(true) {
+					
+			
+			List<Enemy> e = enemies;
+			for(int i = 0; i < e.size(); i++) {
+				
+				Enemy E = e.get(i);
+				BufferedImage image = ImageIO.read(E.getImage());
+		
+				g.drawImage(image, E.getX(), E.getY(), null);
+			}
+			
+			//TimeUnit.MILLISECONDS.sleep(500);
+			
+			
+			t.start();
+			//g.clearRect(0, 0, windowWidth*2, windowHeight*2);
+			
+		}
 	}
 	
 	// MANO RASYTI
@@ -84,7 +119,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    		test = EF.getEnemy("burst");
 	    	}
 	    	
-			test.Spawn();		
+			test.Spawn();
+			spawnEnemy(test);
 	    }
 	    else if(button.getText() == "Get Time and Score") {
 	    	SendMessage("JavaClient", command);
@@ -101,45 +137,10 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    }
 	}
 	
-	
-	
-	public static void drawEnemy(String type) {
-		Graphics g = drawingPanel.getGraphics();
-		//g.clearRect(0, 0, drawingPanel.getWidth(), drawingPanel.getHeight());
-		Runtime.getRuntime().gc();
-		
-		drawSingleEnemy(type);
-	}
-	
-	public static void drawSingleEnemy(String type){
-		//class is not used
-		Graphics g = drawingPanel.getGraphics();
-		
-		BufferedImage image;
-		
-		File imageFile = null;
-		
-		try {
-			if(type == "circle") {
-				imageFile = new File("src/enemy_1.png");
-			}
-			else if(type == "spiral") {
-				imageFile = new File("src/enemy_2.jpg");
-			}
-			else if(type == "continued") {
-				imageFile = new File("src/enemy_3.jpg");
-			}
-			else if(type == "burst") {
-				imageFile = new File("src/enemy_4.jpg");
-			}
-			image = ImageIO.read(imageFile );
-			
-			g.drawImage(image, getRandomX(), getRandomY(), null);
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	public  void spawnEnemy(Enemy e){	
+		e.setX(getRandomX());
+		e.setY(getRandomY());
+		enemies.add(e);
 	}
 	
 	// COPY PASTE
