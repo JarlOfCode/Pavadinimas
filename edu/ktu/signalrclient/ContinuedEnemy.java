@@ -1,18 +1,25 @@
 package edu.ktu.signalrclient;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContinuedEnemy implements Enemy {
 
 	double speed = 5;
 	
-	int xPos = 0;
-	int yPos = 0;
-	
 	
 	//super.imageFile = new File("/src/enemy_1.png");
 	
 	File imageFile = new File("src/enemy_1.png");
+	int xPos = 0;
+	int yPos = 0;
+	int HP = 4;
+	Patterns pattern = new Burst();
+	
+	BigBulletFactory F = new BigBulletFactory();
+	List<Bullet> Bullets = new ArrayList<Bullet>();
+	
 	
 	protected String configuration = "Empty String";
 	
@@ -27,7 +34,7 @@ public class ContinuedEnemy implements Enemy {
 	@Override
 	public void Spawn() {
 		////GetEnemy method should be implemented
-		main.chatBox.append("\nContinuedEnemy Spawned");
+		//main.chatBox.append("\nContinuedEnemy Spawned");
 		System.out.println("ContinuedEnemy Spawned");
 		System.out.println("Stats: " + configuration);	
 	}
@@ -60,6 +67,39 @@ public class ContinuedEnemy implements Enemy {
 	@Override
 	public int getY() {
 		return this.yPos;
+	}
+	
+	@Override
+	public void isHit(Bullet bullet) {
+		if(bullet.getFriendly() == false) {
+			this.HP -= 1;
+		}
+	}
+
+	@Override
+	public void executePattern() throws InterruptedException {
+		pattern.executePattern(this);	
+	}
+
+	@Override
+	public void Shoot(int c_degree) {
+		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
+		float a = 0;
+		Big_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
+		Bullets.add(b);
+	}
+
+	@Override
+	public void Shoot() {
+		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
+		float a = 0;
+		Big_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
+		Bullets.add(b);
+		
+	}
+	
+	public List<Bullet> getBullets(){
+		return this.Bullets;
 	}
 }
 

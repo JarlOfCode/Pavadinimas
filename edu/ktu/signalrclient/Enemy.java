@@ -1,6 +1,7 @@
 package edu.ktu.signalrclient;
 
 import java.io.File;
+import java.util.List;
 
 public abstract interface Enemy {
 File imageFile = null;
@@ -20,5 +21,5 @@ File imageFile = null;
 	void isHit(Bullet bullet);
 	void Shoot(int c_degree);
 	void Shoot();
-	
+	List<Bullet> getBullets();
 }

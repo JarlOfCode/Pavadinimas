@@ -1,5 +1,6 @@
 package edu.ktu.signalrclient;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BurstEnemy implements Enemy {
@@ -10,12 +11,12 @@ public class BurstEnemy implements Enemy {
 	int HP = 4;
 	Patterns pattern = new Burst();
 	
-	AbstractFactory F = new BigBulletFactory();
-	List<Small_Slow_Bullet> Bullets = new List<Small_Slow_Bullet>();
+	SmallBulletFactory F = new SmallBulletFactory();
+	List<Bullet> Bullets = new ArrayList<Bullet>();
 	
 	@Override
 	public void Spawn() {
-		main.chatBox.append("\nBurstEnemy Spawned");
+		//main.chatBox.append("\nBurstEnemy Spawned");
 		System.out.println("BurstEnemy Spawned");
 	}
 	
@@ -64,12 +65,22 @@ public class BurstEnemy implements Enemy {
 
 	@Override
 	public void Shoot(int c_degree) {
-		
+		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
+		float a = 0;
+		Small_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
+		Bullets.add(b);
 	}
 
 	@Override
 	public void Shoot() {
-		// TODO Auto-generated method stub
+		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
+		float a = 0;
+		Small_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
+		Bullets.add(b);
 		
+	}
+	
+	public List<Bullet> getBullets(){
+		return this.Bullets;
 	}
 }

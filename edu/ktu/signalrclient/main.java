@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,8 +42,8 @@ import java.awt.event.*;
 public class main extends JFrame implements ActionListener, Action2<String, String>{
 
 	HashMap<String,JButton> buttonCache = new HashMap<String,JButton>();
-	static JTextArea chatBox = new JTextArea(5, 20);
-	static JScrollPane chatPanel = new JScrollPane(chatBox);
+	/*static JTextArea chatBox = new JTextArea(5, 20);
+	static JScrollPane chatPanel = new JScrollPane(chatBox);*/
 	
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
@@ -58,23 +56,59 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	
 	static List<Enemy> enemies = new ArrayList<Enemy>();
+	static Player1 player;
 	
-	
-	
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException{
+		
 		main GM = new main();
 		GM.gui();
 		GM.setVisible(true);	
-		Graphics g = drawingPanel.getGraphics();
 		
-		javax.swing.Timer t = new javax.swing.Timer(40, new ActionListener() {
+		
+		
+	     
+		
+		GM.forever();
+	}
+	
+	public void forever() throws IOException {
+		player  = new Player1();
+		Graphics g = drawingPanel.getGraphics();
+		drawingPanel.setFocusable(true);
+		drawingPanel.requestFocus();
+		javax.swing.Timer t = new javax.swing.Timer(0, new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            drawingPanel.repaint(40);
+	            drawingPanel.repaint();
 	        }
 	     });
 		
+		KeyListener listener = new KeyListener(){
+			
+			@Override
+	        public void keyReleased(KeyEvent e) {
+				System.out.println("NU NAXUI");
+	            player.keyReleased(e);
+	        }
+
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	        	System.out.println("NU NAXUI");
+	            player.keyPressed(e); 
+	        }
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				System.out.println("NU NAXUI");
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		addKeyListener(listener);
+		
+		
 		while(true) {
-					
+			//drawingPanel.requestFocus();
 			
 			List<Enemy> e = enemies;
 			for(int i = 0; i < e.size(); i++) {
@@ -85,6 +119,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 				g.drawImage(image, E.getX(), E.getY(), null);
 			}
 			
+			g.drawImage(player.getImage(), player.getX(), player.getY(), null);
+			
 			//TimeUnit.MILLISECONDS.sleep(500);
 			
 			
@@ -93,6 +129,11 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			
 		}
 	}
+	
+	 /*private class TAdapter extends KeyAdapter {
+
+	        
+	    }*/
 	
 	// MANO RASYTI
 	
@@ -124,8 +165,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    }
 	    else if(button.getText() == "Get Time and Score") {
 	    	SendMessage("JavaClient", command);
-	    	chatBox.append("\nTime: " + GS.getTime());
-	    	chatBox.append("\nScore: " + GS.getScore());
+	    	//chatBox.append("\nTime: " + GS.getTime());
+	    	//chatBox.append("\nScore: " + GS.getScore());
 	    }
 	    else if(button.getText() == "Spawn a Player") {
 	    	SendMessage("JavaClient", command);
@@ -145,6 +186,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	// COPY PASTE
 	public void gui() {
+
 		
 		setSize(windowWidth * 2, windowHeight *2 );
 		setTitle("BulletHell");
@@ -165,16 +207,16 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		workPanel.add(drawingPanel);//, BorderLayout.NORTH);
 		
 		//JScrollPane chatPanel = new JScrollPane();
-		chatPanel.setLayout(new ScrollPaneLayout());
+		/*chatPanel.setLayout(new ScrollPaneLayout());
 		chatPanel.setBackground(Color.GREEN);
-		chatPanel.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		chatPanel.setVerticalScrollBarPolicy(*/
+               // JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		//JTextArea chatBox = new JTextArea();
 		//chatPanel.add(chatBox);
-		chatBox.setWrapStyleWord(true);
+		//chatBox.setWrapStyleWord(true);
 		//chatBox.setEditable(false);
-		chatBox.append("SINGLETON TIME AND SCORE");
-		workPanel.add(chatPanel);//, BorderLayout.CENTER);
+		//chatBox.append("SINGLETON TIME AND SCORE");
+		//workPanel.add(chatPanel);//, BorderLayout.CENTER);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
@@ -221,7 +263,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		String msg = user + ": " + message;
 		System.out.println(msg);
 		
-		ChatBoxAppend(msg);
+		//ChatBoxAppend(msg);
 		
 		drawRedPlane();
 //		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -231,13 +273,13 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 //	    });
 	}
 	
-	private static void ChatBoxAppend(String msg) {
+	/*private static void ChatBoxAppend(String msg) {
 		chatBox.append(msg + "\n");
 		chatBox.setCaretPosition(chatBox.getDocument().getLength());
 		chatBox.update(chatBox.getGraphics());
 		chatBox.paintImmediately(chatBox.getBounds());  
 		chatPanel.paintImmediately(chatPanel.getBounds());
-	}
+	}*/
 	
     public static void TestSignalR() throws Exception{
         System.out.println("Enter the URL of the SignalR Chat you want to join");

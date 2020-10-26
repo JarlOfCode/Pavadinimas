@@ -28,10 +28,10 @@ public class Player1 {
 	        i_heigt = image.getHeight(null);
 	    }
 
-	    public void move() {
+	    public void move(int x, int y) {
 	        
-	    	Pos_X += dx;
-	        Pos_Y += dy;
+	    	Pos_X += x;
+	        Pos_Y += y;
 	    }
 
 	    public int getX() {
@@ -62,9 +62,11 @@ public class Player1 {
 	    public void keyPressed(KeyEvent e) {
 
 	        int key = e.getKeyCode();
+	        System.out.println("8===D");
 
 	        if (key == KeyEvent.VK_A) {
 	            dx = -1;
+	            System.out.println("XD");
 	        }
 
 	        if (key == KeyEvent.VK_D) {
