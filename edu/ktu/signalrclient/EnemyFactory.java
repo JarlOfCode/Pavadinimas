@@ -5,7 +5,7 @@ import java.util.Random;
 //implements AbstractFactory<Enemy>
 public class EnemyFactory{
 	
-	IBuilder builder = new ContinuosEnemyBuilder();
+	IBuilder builder = new ContinuedEnemyBuilder();
 	
 	//use getEnemy method to get object of type Enemy
 	public Enemy getEnemy(String enemyType) {

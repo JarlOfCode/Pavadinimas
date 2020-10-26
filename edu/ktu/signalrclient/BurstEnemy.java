@@ -1,14 +1,20 @@
 package edu.ktu.signalrclient;
 import java.io.File;
+import java.util.List;
 
 public class BurstEnemy implements Enemy {
 
 	File imageFile = new File("src/enemy_2.jpg");
 	int xPos = 0;
 	int yPos = 0;
+	int HP = 4;
+	Patterns pattern = new Burst();
+	
+	AbstractFactory F = new BigBulletFactory();
+	List<Small_Slow_Bullet> Bullets = new List<Small_Slow_Bullet>();
+	
 	@Override
 	public void Spawn() {
-		//GetEnemy method should be implemented
 		main.chatBox.append("\nBurstEnemy Spawned");
 		System.out.println("BurstEnemy Spawned");
 	}
@@ -42,5 +48,28 @@ public class BurstEnemy implements Enemy {
 	@Override
 	public int getY() {
 		return this.yPos;
+	}
+	
+	@Override
+	public void isHit(Bullet bullet) {
+		if(bullet.getFriendly() == false) {
+			this.HP -= 1;
+		}
+	}
+
+	@Override
+	public void executePattern() throws InterruptedException {
+		pattern.executePattern(this);	
+	}
+
+	@Override
+	public void Shoot(int c_degree) {
+		
+	}
+
+	@Override
+	public void Shoot() {
+		// TODO Auto-generated method stub
+		
 	}
 }
