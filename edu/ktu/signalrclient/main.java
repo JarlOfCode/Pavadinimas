@@ -160,7 +160,12 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    		test = EF.getEnemy("burst");
 	    	}
 	    	
-			test.Spawn();
+			try {
+				test.Spawn();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			spawnEnemy(test);
 	    }
 	    else if(button.getText() == "Get Time and Score") {

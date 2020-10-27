@@ -15,10 +15,11 @@ public class SpiralEnemy implements Enemy {
 	List<Bullet> Bullets = new ArrayList<Bullet>();
 	
 	@Override
-	public void Spawn() {
+	public void Spawn() throws InterruptedException {
 		////GetEnemy method should be implemented
 		//main.chatBox.append("\nSpiralEnemy Spawned");
 		System.out.println("SpiralEnemy Spawned");
+		ShootLoop();
 	}
 	
 	@Override
@@ -69,6 +70,7 @@ public class SpiralEnemy implements Enemy {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
 		float a = 0;
 		Big_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a, a) ;
+		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
 
@@ -77,11 +79,17 @@ public class SpiralEnemy implements Enemy {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		float a = 0;
 		Big_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a, a) ;
+		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}
 	
 	public List<Bullet> getBullets(){
 		return this.Bullets;
+	}
+	
+	public void ShootLoop() throws InterruptedException {
+		executePattern();
+		Thread.sleep(5000);
 	}
 }

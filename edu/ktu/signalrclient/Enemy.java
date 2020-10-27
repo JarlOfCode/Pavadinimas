@@ -7,7 +7,7 @@ public abstract interface Enemy {
 File imageFile = null;
 	
 	String getEnemy();
-	void Spawn();
+	void Spawn() throws InterruptedException;
 	File getImage();
 	void setX(int X);
 	void setY(int Y);
@@ -22,4 +22,6 @@ File imageFile = null;
 	void Shoot(int c_degree);
 	void Shoot();
 	List<Bullet> getBullets();
+	
+	void ShootLoop() throws InterruptedException;
 }
