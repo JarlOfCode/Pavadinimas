@@ -2,6 +2,8 @@ package edu.ktu.signalrclient;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 
 public class Player1 {
@@ -14,6 +16,7 @@ public class Player1 {
 	private int HP = 100;
 	private int Move_Speed;
 	private Image image;
+	private PlayerObserver o = new PlayerObserver();
 	
 	public Player1(){
 		loadImage();
@@ -28,10 +31,11 @@ public class Player1 {
 	        i_heigt = image.getHeight(null);
 	    }
 
-	    public void move(int x, int y) {
+	    public void move(int x, int y) throws IOException {
 	        
 	    	Pos_X += x;
 	        Pos_Y += y;
+	        notifyObserver();
 	    }
 
 	    public int getX() {
@@ -63,32 +67,32 @@ public class Player1 {
 	    	System.out.println("Player shot a bullet");
 	    }
 
-	    public void keyPressed(KeyEvent e) {
+	    public void keyPressed(KeyEvent e) throws IOException {
 
 	        int key = e.getKeyCode();
 	        System.out.println("Key code");
 
 	        if (key == KeyEvent.VK_A) {
 	            dx = -5;
-	            System.out.println("\"A\" pressed");
+	            //System.out.println("\"A\" pressed");
 	            this.move(dx, 0);
 	        }
 
 	        if (key == KeyEvent.VK_D) {
 	            dx = 5;
-	            System.out.println("\"D\" pressed");
+	            //System.out.println("\"D\" pressed");
 	            this.move(dx, 0);
 	        }
 
 	        if (key == KeyEvent.VK_W) {
 	            dy = -5;
-	            System.out.println("\"W\" pressed");
+	            //System.out.println("\"W\" pressed");
 	            this.move(0, dy);
 	        }
 
 	        if (key == KeyEvent.VK_S) {
 	            dy = 5;
-	            System.out.println("\"S\" pressed");
+	            //System.out.println("\"S\" pressed");
 	            this.move(0, dy);
 	        }
 	        
@@ -118,4 +122,8 @@ public class Player1 {
 	            dy = 0;
 	        }
 	    }
+	    
+		public void notifyObserver() throws IOException {
+			o.update();
+		}
 }

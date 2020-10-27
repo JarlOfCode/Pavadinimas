@@ -33,3 +33,7 @@
 /main$Keychecker.class
 /main$TAdapter.class
 /main$2.class
+/Observer.class
+/EnemyObserver.class
+/BulletObserver.class
+/PlayerObserver.class

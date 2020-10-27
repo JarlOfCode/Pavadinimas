@@ -85,7 +85,7 @@ public class ContinuedEnemy implements Enemy {
 	@Override
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
-		float a = 0;
+		int a = 0;
 		Big_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
 		System.out.println("ContinuedEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
@@ -94,9 +94,9 @@ public class ContinuedEnemy implements Enemy {
 	@Override
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
-		float a = 0;
+		int a = 0;
 		Big_Fast_Bullet b = F.createFastBullet(false, getX(), getY(), a, a) ;
-		System.out.println("SpiralEnemy shot random " + b.getClass());
+		System.out.println("Continued shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}

@@ -1,11 +1,14 @@
 package edu.ktu.signalrclient;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract interface Enemy {
 File imageFile = null;
 	
+	EnemyObserver o = new EnemyObserver();
 	String getEnemy();
 	void Spawn() throws InterruptedException;
 	File getImage();
@@ -24,4 +27,8 @@ File imageFile = null;
 	List<Bullet> getBullets();
 	
 	void ShootLoop() throws InterruptedException;
+	
+	public static void notifyObserver() throws IOException {
+		o.update();
+	}
 }

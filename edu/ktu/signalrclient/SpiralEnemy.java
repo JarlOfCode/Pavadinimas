@@ -68,7 +68,7 @@ public class SpiralEnemy implements Enemy {
 	@Override
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
-		float a = 0;
+		int a = 0;
 		Big_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a, a) ;
 		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
@@ -77,7 +77,7 @@ public class SpiralEnemy implements Enemy {
 	@Override
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
-		float a = 0;
+		int a = 0;
 		Big_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a, a) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);

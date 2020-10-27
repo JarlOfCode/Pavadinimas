@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -56,6 +57,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	
 	static List<Enemy> enemies = new ArrayList<Enemy>();
+	static List<Bullet> bullets = new ArrayList<Bullet>();
 	static Player1 player;
 	
 	public static void main(String[] args) throws IOException{
@@ -66,31 +68,64 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		GM.forever();
 	}
 	
+	public static void render() throws IOException {
+		Graphics g = drawingPanel.getGraphics();
+		
+		/*javax.swing.Timer t = new javax.swing.Timer(0, new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            drawingPanel.repaint();
+	        }
+	     });*/
+		
+		
+		
+		
+			List<Enemy> e = enemies;
+			for(int i = 0; i < e.size(); i++) {
+				
+				Enemy E = e.get(i);
+				//drawingPanel.repaint(E.getX()-1, E.getY()-1, 100, 100);
+				BufferedImage image = ImageIO.read(E.getImage());
+		
+				g.drawImage(image, E.getX(), E.getY(), null);
+			}
+			int x = player.getX();
+			int y = player.getY();
+			g.drawImage(player.getImage(), x, y, null);
+			drawingPanel.repaint(x/2-5, y/2, x/2+10, y/2+500);
+			//drawingPanel.repaint(x/2-10, y/2, x/2+10, y/2+500);
+			System.out.println(x-10 + " ; " + y + " ; " + x  + " ; " +  y+500);
+			// drawingPanel.repaint();
+			//t.start();
+		
+	}
+	
 	public void forever() throws IOException {
+		
 		player  = new Player1();
 		Graphics g = drawingPanel.getGraphics();
 		drawingPanel.setFocusable(true);
 		drawingPanel.requestFocus();
 		requestFocusInWindow();
-		javax.swing.Timer t = new javax.swing.Timer(40, new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            drawingPanel.repaint();
-	        }
-	     });
-		
+		main.render();
 		KeyListener listener = new KeyListener(){
 			
 			@Override
 	        public void keyReleased(KeyEvent e) {
-				System.out.println("Key Released");
+				//System.out.println("Key Released");
 	            player.keyReleased(e);
 	            
 	        }
 
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	System.out.println("Key pressed");
-	            player.keyPressed(e); 
+	        	//System.out.println("Key pressed");
+	            try {
+					player.keyPressed(e);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
 	        }
 
 			@Override
@@ -102,29 +137,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		};
 		
 		addKeyListener(listener);
-		
-		
-		while(true) {
-			//drawingPanel.requestFocus();
-			
-			List<Enemy> e = enemies;
-			for(int i = 0; i < e.size(); i++) {
-				
-				Enemy E = e.get(i);
-				BufferedImage image = ImageIO.read(E.getImage());
-		
-				g.drawImage(image, E.getX(), E.getY(), null);
-			}
-			
-			g.drawImage(player.getImage(), player.getX(), player.getY(), null);
-			
-			//TimeUnit.MILLISECONDS.sleep(500);
-			
-			
-			t.start();
-			//g.clearRect(0, 0, windowWidth*2, windowHeight*2);
-			
-		}
 	}
 	
 	 /*private class TAdapter extends KeyAdapter {
@@ -163,7 +175,12 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			spawnEnemy(test);
+			try {
+				spawnEnemy(test);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    }
 	    else if(button.getText() == "Get Time and Score") {
 	    	SendMessage("JavaClient", command);
@@ -180,10 +197,11 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    }
 	}
 	
-	public  void spawnEnemy(Enemy e){	
+	public  void spawnEnemy(Enemy e) throws IOException{	
 		e.setX(getRandomX());
 		e.setY(getRandomY());
 		enemies.add(e);
+		render();
 	}
 	
 	// COPY PASTE

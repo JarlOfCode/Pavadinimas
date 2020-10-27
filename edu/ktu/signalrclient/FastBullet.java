@@ -7,4 +7,8 @@ public class FastBullet extends Bullet {
 		// TODO Auto-generated constructor stub
 	}
 
+	public FastBullet() {
+		super();
+	}
+
 }

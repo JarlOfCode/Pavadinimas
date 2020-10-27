@@ -18,6 +18,10 @@ public abstract class Bullet {
 		friendly = Friendly;
 	}
 	
+	public Bullet() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getDamage() {
 		return damage;
 	}
@@ -42,6 +46,23 @@ public abstract class Bullet {
 		
 		// Judejimo logika su kampu ir t.t.
 		
+	}
+	
+	public void setX(int x) {
+		pos_x = x;
+	}
+	
+	public void setY(int y) {
+		pos_y = y;
+	}
+	
+	public void setFriendly(boolean f) {
+		friendly = f;
+	}
+	
+	public void setVel(int YVel, int XVel) {
+		yVel = YVel;
+		xVel = XVel;
 	}
 }
 
