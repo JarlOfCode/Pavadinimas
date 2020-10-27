@@ -62,23 +62,30 @@ public class Player1 {
 	    public void keyPressed(KeyEvent e) {
 
 	        int key = e.getKeyCode();
-	        System.out.println("8===D");
+	        System.out.println("Key code");
 
 	        if (key == KeyEvent.VK_A) {
-	            dx = -1;
-	            System.out.println("XD");
+	            dx = -5;
+	            System.out.println("\"A\" pressed");
+	            this.move(dx, 0);
 	        }
 
 	        if (key == KeyEvent.VK_D) {
-	            dx = 1;
+	            dx = 5;
+	            System.out.println("\"D\" pressed");
+	            this.move(dx, 0);
 	        }
 
 	        if (key == KeyEvent.VK_W) {
-	            dy = 1;
+	            dy = -5;
+	            System.out.println("\"W\" pressed");
+	            this.move(0, dy);
 	        }
 
 	        if (key == KeyEvent.VK_S) {
-	            dy = -1;
+	            dy = 5;
+	            System.out.println("\"S\" pressed");
+	            this.move(0, dy);
 	        }
 	    }
 

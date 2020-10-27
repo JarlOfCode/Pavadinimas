@@ -42,8 +42,8 @@ import java.awt.event.*;
 public class main extends JFrame implements ActionListener, Action2<String, String>{
 
 	HashMap<String,JButton> buttonCache = new HashMap<String,JButton>();
-	/*static JTextArea chatBox = new JTextArea(5, 20);
-	static JScrollPane chatPanel = new JScrollPane(chatBox);*/
+	static JTextArea chatBox = new JTextArea(5, 20);
+	static JScrollPane chatPanel = new JScrollPane(chatBox);
 	
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
@@ -76,6 +76,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		Graphics g = drawingPanel.getGraphics();
 		drawingPanel.setFocusable(true);
 		drawingPanel.requestFocus();
+		requestFocusInWindow();
 		javax.swing.Timer t = new javax.swing.Timer(0, new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            drawingPanel.repaint();
@@ -86,19 +87,20 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			
 			@Override
 	        public void keyReleased(KeyEvent e) {
-				System.out.println("NU NAXUI");
+				System.out.println("Key Released");
 	            player.keyReleased(e);
+	            
 	        }
 
 	        @Override
 	        public void keyPressed(KeyEvent e) {
-	        	System.out.println("NU NAXUI");
+	        	System.out.println("Key pressed");
 	            player.keyPressed(e); 
 	        }
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				System.out.println("NU NAXUI");
+				System.out.println("Key typed");
 				// TODO Auto-generated method stub
 				
 			}
@@ -170,8 +172,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    }
 	    else if(button.getText() == "Get Time and Score") {
 	    	SendMessage("JavaClient", command);
-	    	//chatBox.append("\nTime: " + GS.getTime());
-	    	//chatBox.append("\nScore: " + GS.getScore());
+	    	chatBox.append("\nTime: " + GS.getTime());
+	    	chatBox.append("\nScore: " + GS.getScore());
 	    }
 	    else if(button.getText() == "Spawn a Player") {
 	    	SendMessage("JavaClient", command);
