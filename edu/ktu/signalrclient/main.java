@@ -63,11 +63,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		main GM = new main();
 		GM.gui();
 		GM.setVisible(true);	
-		
-		
-		
-	     
-		
 		GM.forever();
 	}
 	
@@ -77,7 +72,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		drawingPanel.setFocusable(true);
 		drawingPanel.requestFocus();
 		requestFocusInWindow();
-		javax.swing.Timer t = new javax.swing.Timer(0, new ActionListener() {
+		javax.swing.Timer t = new javax.swing.Timer(40, new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            drawingPanel.repaint();
 	        }

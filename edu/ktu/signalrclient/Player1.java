@@ -58,6 +58,10 @@ public class Player1 {
 	        
 	        return image;
 	    }
+	    
+	    public void playerShoot(){
+	    	System.out.println("Player shot a bullet");
+	    }
 
 	    public void keyPressed(KeyEvent e) {
 
@@ -86,6 +90,11 @@ public class Player1 {
 	            dy = 5;
 	            System.out.println("\"S\" pressed");
 	            this.move(0, dy);
+	        }
+	        
+	        if (key == KeyEvent.VK_SPACE) {
+	            System.out.println("\"Space\" pressed");
+	            this.playerShoot();
 	        }
 	    }
 
