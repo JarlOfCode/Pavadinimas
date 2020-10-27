@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BurstEnemy implements Enemy {
 
-	File imageFile = new File("src/enemy_2.jpg");
+	File imageFile = new File("src/Enemy_Small_1.png");
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;

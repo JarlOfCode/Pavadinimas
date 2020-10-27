@@ -92,9 +92,26 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			int x = player.getX();
 			int y = player.getY();
 			g.drawImage(player.getImage(), x, y, null);
-			drawingPanel.repaint(x/2-5, y/2, x/2+10, y/2+500);
-			//drawingPanel.repaint(x/2-10, y/2, x/2+10, y/2+500);
-			System.out.println(x-10 + " ; " + y + " ; " + x  + " ; " +  y+500);
+			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			drawingPanel.repaint(x/2-1, y, x/2+1, y/2+50);
+			
+			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			drawingPanel.repaint(x/2+25, y, x/2+26, y/2+50);
+			
 			// drawingPanel.repaint();
 			//t.start();
 		
@@ -130,7 +147,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				System.out.println("Key typed");
+				//System.out.println("Key typed");
 				// TODO Auto-generated method stub
 				
 			}

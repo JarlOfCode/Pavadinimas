@@ -13,9 +13,11 @@ public class Player1 {
 	private int Pos_Y = 15;
 	private int i_width;
 	private int i_heigt;
-	private int HP = 100;
+	private int HP = 3;
 	private int Move_Speed;
+	private int MaxHP = 3;
 	private Image image;
+	private int Speed = 5;
 	private PlayerObserver o = new PlayerObserver();
 	
 	public Player1(){
@@ -24,7 +26,7 @@ public class Player1 {
 	
 	 private void loadImage() {
 	        
-	        ImageIcon ii = new ImageIcon("src/player.png");
+	        ImageIcon ii = new ImageIcon("src/Player1.png");
 	        image = ii.getImage(); 
 	        
 	        i_width = image.getWidth(null);
@@ -70,30 +72,26 @@ public class Player1 {
 	    public void keyPressed(KeyEvent e) throws IOException {
 
 	        int key = e.getKeyCode();
-	        System.out.println("Key code");
+	        //System.out.println("Key code");
 
 	        if (key == KeyEvent.VK_A) {
-	            dx = -5;
 	            //System.out.println("\"A\" pressed");
-	            this.move(dx, 0);
+	            this.move(-Speed, 0);
 	        }
 
 	        if (key == KeyEvent.VK_D) {
-	            dx = 5;
 	            //System.out.println("\"D\" pressed");
-	            this.move(dx, 0);
+	            this.move(Speed, 0);
 	        }
 
 	        if (key == KeyEvent.VK_W) {
-	            dy = -5;
 	            //System.out.println("\"W\" pressed");
-	            this.move(0, dy);
+	            this.move(0, -Speed);
 	        }
 
 	        if (key == KeyEvent.VK_S) {
-	            dy = 5;
 	            //System.out.println("\"S\" pressed");
-	            this.move(0, dy);
+	            this.move(0, Speed);
 	        }
 	        
 	        if (key == KeyEvent.VK_SPACE) {
@@ -126,4 +124,20 @@ public class Player1 {
 		public void notifyObserver() throws IOException {
 			o.update();
 		}
+		
+		public void update() {
+		}
+		
+		public void AddHP(int hp) {
+			HP+=hp;
+		}
+		
+		public void SetMaxHP(int hp) {
+			MaxHP = hp;
+		}
+		
+		public void SetSpeed(int sp) {
+			Speed = sp;
+		}
+		
 }

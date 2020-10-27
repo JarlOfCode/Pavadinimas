@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SpiralEnemy implements Enemy {
 
-	File imageFile = new File("src/enemy_4.jpg");
+	File imageFile = new File("src/Enemy_Big_2.png");
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;

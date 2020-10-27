@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CircleEnemy implements Enemy {
 	
-	File imageFile = new File("src/enemy_3.jpg");
+	File imageFile = new File("src/Enemy_Big_1.png");
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;

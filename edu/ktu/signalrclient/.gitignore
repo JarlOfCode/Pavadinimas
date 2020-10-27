@@ -37,3 +37,10 @@
 /EnemyObserver.class
 /BulletObserver.class
 /PlayerObserver.class
+/Pickup.class
+/Item.class
+/HealthPotion.class
+/Boots.class
+/Armor.class
+/PlayerWithBoots.class
+/PlayerWithArmor.class

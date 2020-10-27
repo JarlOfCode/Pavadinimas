@@ -11,7 +11,7 @@ public class ContinuedEnemy implements Enemy {
 	
 	//super.imageFile = new File("/src/enemy_1.png");
 	
-	File imageFile = new File("src/enemy_1.png");
+	File imageFile = new File("src/Enemy_Small_2.png");
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
