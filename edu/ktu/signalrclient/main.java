@@ -58,73 +58,37 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	static List<Enemy> enemies = new ArrayList<Enemy>();
 	static List<Bullet> bullets = new ArrayList<Bullet>();
+	static Renderer r; 
 	static Player1 player;
 	
 	public static void main(String[] args) throws IOException{
 		
 		main GM = new main();
+		
 		GM.gui();
-		GM.setVisible(true);	
-		GM.forever();
+		
+		GM.setVisible(true);
+		GM.setup();
+		
+		r = new Renderer();
+		r.start();
+		
+		while(true) {
+		GM.constant();
+		}
+	}
+	
+	public void constant() {
+		requestFocusInWindow();
 	}
 	
 	public static void render() throws IOException {
-		Graphics g = drawingPanel.getGraphics();
-		
-		/*javax.swing.Timer t = new javax.swing.Timer(0, new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            drawingPanel.repaint();
-	        }
-	     });*/
-		
-		
-		
-		
-			List<Enemy> e = enemies;
-			for(int i = 0; i < e.size(); i++) {
-				
-				Enemy E = e.get(i);
-				//drawingPanel.repaint(E.getX()-1, E.getY()-1, 100, 100);
-				BufferedImage image = ImageIO.read(E.getImage());
-		
-				g.drawImage(image, E.getX(), E.getY(), null);
-			}
-			int x = player.getX();
-			int y = player.getY();
-			g.drawImage(player.getImage(), x, y, null);
-			
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			drawingPanel.repaint(x/2-1, y, x/2+1, y/2+50);
-			
-			
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			drawingPanel.repaint(x/2+25, y, x/2+26, y/2+50);
-			
-			// drawingPanel.repaint();
-			//t.start();
-		
+		r.run();	
 	}
 	
-	public void forever() throws IOException {
+	public void setup() throws IOException {
 		
 		player  = new Player1();
-		Graphics g = drawingPanel.getGraphics();
-		drawingPanel.setFocusable(true);
-		drawingPanel.requestFocus();
-		requestFocusInWindow();
-		main.render();
 		KeyListener listener = new KeyListener(){
 			
 			@Override
@@ -152,14 +116,11 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 				
 			}
 		};
-		
+
 		addKeyListener(listener);
 	}
 	
-	 /*private class TAdapter extends KeyAdapter {
-
-	        
-	    }*/
+	
 	
 	// MANO RASYTI
 	
@@ -204,10 +165,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    	chatBox.append("\nTime: " + GS.getTime());
 	    	chatBox.append("\nScore: " + GS.getScore());
 	    }
-	    else if(button.getText() == "Spawn a Player") {
-	    	SendMessage("JavaClient", command);
-	    	drawPlayer();	    	
-	    }
 	    else if(button.getText() == "Observer") {
 	    	SendMessage("JavaClient", command);
 	    	
@@ -236,30 +193,14 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		add(workPanel, BorderLayout.CENTER);
 		workPanel.setLayout(new  GridLayout(1,2));
 		
-		//JPanel drawingPanel = new JPanel();
-		//drawingPanel = new JPanel();	
 		drawingPanel.setBackground(Color.WHITE);
 		drawingPanel.setSize(windowWidth, windowHeight);
 		setLocationRelativeTo(null);
 		workPanel.add(drawingPanel);//, BorderLayout.NORTH);
 		
-		//JScrollPane chatPanel = new JScrollPane();
-		/*chatPanel.setLayout(new ScrollPaneLayout());
-		chatPanel.setBackground(Color.GREEN);
-		chatPanel.setVerticalScrollBarPolicy(*/
-               // JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		//JTextArea chatBox = new JTextArea();
-		//chatPanel.add(chatBox);
-		//chatBox.setWrapStyleWord(true);
-		//chatBox.setEditable(false);
-		//chatBox.append("SINGLETON TIME AND SCORE");
-		//workPanel.add(chatPanel);//, BorderLayout.CENTER);
-		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
 		add(buttonsPanel, BorderLayout.SOUTH);
-		
-		//Savi
 		
 		
 		JButton button = new JButton("Spawn Random Enemy");
@@ -299,58 +240,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		//String msg = "RCV: " + user + ": " + message;
 		String msg = user + ": " + message;
 		System.out.println(msg);
-		
-		//ChatBoxAppend(msg);
-		
-		drawRedPlane();
-//		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//	        public void run() {
-//	        	ChatBoxAppend(msg);
-//	        }
-//	    });
 	}
-	
-	/*private static void ChatBoxAppend(String msg) {
-		chatBox.append(msg + "\n");
-		chatBox.setCaretPosition(chatBox.getDocument().getLength());
-		chatBox.update(chatBox.getGraphics());
-		chatBox.paintImmediately(chatBox.getBounds());  
-		chatPanel.paintImmediately(chatPanel.getBounds());
-	}*/
-	
-    public static void TestSignalR() throws Exception{
-        System.out.println("Enter the URL of the SignalR Chat you want to join");
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        
-        //String url = "https://chatroom2019.azurewebsites.net/signalr/";
-        //String url = "https://localhost:5001/signalr/";
-        String url = "http://localhost:5000/gamehub";
-        
-
-        HubConnection hubConnection = HubConnectionBuilder.create(url).build();
-        
-        System.out.println("connection established");
-
-        
-        hubConnection.on("ReceiveMessage", (user, message) -> {
-            ReceiveMessage(user, message);
-        }, String.class, String.class);      
-        
-        //This is a blocking call
-        hubConnection.start().blockingAwait();
-        
-        HubConnectionState state = hubConnection.getConnectionState();
-
-        String user = "java client";
-        String message = "test";
-        while (!message.equals("leave")){
-        	message = reader.nextLine();
-            hubConnection.send("SendMessage", user, message);
-        }
-
-        reader.close();
-        hubConnection.stop();
-    }
     
     public static void SendMessage(String user, String message) {
         
@@ -371,185 +261,9 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
         hubConnection.send("SendMessage", user, message);
         String msg = "SND: " + user + ": " + message;
         
-		//ChatBoxAppend(msg);
-		
-//		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//	        public void run() {
-//	        	ChatBoxAppend(msg);
-//	        }
-//	    });
-        
         hubConnection.stop();
         
     }
-	
-	public static void getRequest() {
-		//String url = "https://gameserver.azurewebsites.net/api/player";
-		//String url = "https://chatroom2019.azurewebsites.net/api/player";
-		String url = "https://chatroom2019.azurewebsites.net";
-		
-			
-				//"http://localhost:8080/RestfulWebServices/order-inventory/order/1016";
-	    HttpURLConnection urlConn = null;
-	    BufferedReader reader = null;
-	    try {
-	        URL urlObj = new URL(url);
-	        urlConn = (HttpURLConnection) urlObj.openConnection();
-	        urlConn.setRequestMethod("GET");
-	        urlConn.setConnectTimeout(5000);
-	        urlConn.setReadTimeout(5000);
-	       // urlConn.setRequestProperty("Accept", "application/json");
-	        if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-	            System.err.println("GET - Unable to connect to the URL...");
-	            return;
-	        }
-	        System.out.println("GET - Connected to the server...");
-	        InputStream is = urlConn.getInputStream();
-	        reader = new BufferedReader(new InputStreamReader((is)));
-	        System.out.println("GET - Reading data from server...");
-	        String tmpStr = null;
-	        while((tmpStr = reader.readLine()) != null){
-	            System.out.println(tmpStr);
-	        }
-	    } catch (MalformedURLException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    } finally {
-	        try {
-	            if(reader != null) reader.close();
-	            if(urlConn != null) urlConn.disconnect();
-	        } catch(Exception ex){
-	             
-	        }
-	    }
-	}
-	
-	public static void postRequest() {
-		//String url = "https://gameserver.azurewebsites.net/api/player";
-		//String url = "https://chatroom2019.azurewebsites.net/api/player";
-		String url = "https://chatroom2019.azurewebsites.net";
-		
-        HttpURLConnection urlConn = null;
-        BufferedReader reader = null;
-        OutputStream ouputStream = null;
-        String jsonInput = "{\"name\":\"Java-7\",\"score\":7,\"posX\":7,\"posY\":7}";
-        //"{\"custmer\":\"Java2novice\",\"address\":\"Bangalore\","+ "\"bill-amount\":\"$2000\"}";
-        try {
-            URL urlObj = new URL(url);
-            urlConn = (HttpURLConnection) urlObj.openConnection();
-            urlConn.setDoOutput(true);
-            urlConn.setRequestMethod("POST");
-            urlConn.setRequestProperty("Content-Type", "application/json");
-            urlConn.setConnectTimeout(5000);
-            urlConn.setReadTimeout(5000);
-            urlConn.setRequestProperty("Accept", "application/json");
-            // send json input request
-            ouputStream = urlConn.getOutputStream();
-            ouputStream.write(jsonInput.getBytes());
-            ouputStream.flush();
-            String returnUrl = urlConn.getURL().toString();
-            
-            if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                System.err.println("POST - Unable to connect to the URL...");
-                return;
-            }
-            System.out.println("POST - Connected to the server...");
-            InputStream is = urlConn.getInputStream();
-            reader = new BufferedReader(new InputStreamReader((is)));
-            String tmpStr = null;
-            while((tmpStr = reader.readLine()) != null){
-                System.out.println(tmpStr);
-            }
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                if(reader != null) reader.close();
-                if(urlConn != null) urlConn.disconnect();
-            } catch(Exception ex){
-                 
-            }
-        }
-	}
-
-	
-	
-	public void draw() {
-		Graphics g = drawingPanel.getGraphics();
-		//g.clearRect(0, 0, drawingPanel.getWidth(), drawingPanel.getHeight());
-		Runtime.getRuntime().gc();
-		
-		drawSinglePlane();
-	}
-	
-	public void drawSinglePlane(){
-		//class is not used
-		Graphics g = drawingPanel.getGraphics();
-		
-		BufferedImage image;
-		try {
-			String fileName =  getRandomType();  //"src/plane.jpg";
-			//File imageFile = new File(fileName);
-			File imageFile = new File("src/bomber.jpg");
-			//System.out.println(imageFile.getAbsolutePath() );			
-			image = ImageIO.read(imageFile );
-			
-			g.drawImage(image, getRandomX(), getRandomY(), null);
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
-	public void drawPlayer() {
-		Graphics g = drawingPanel.getGraphics();
-		Runtime.getRuntime().gc();
-		
-		BufferedImage image;
-		try {
-			String fileName =  getRandomType();  //"src/plane.jpg";
-			//File imageFile = new File(fileName);
-			File imageFile = new File("src/player.jpg");
-			//System.out.println(imageFile.getAbsolutePath() );			
-			image = ImageIO.read(imageFile );
-			
-			g.drawImage(image, getRandomX(), getRandomY(), null);
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
-	public static   void drawRedPlane(){
-		//class is not used
-		Graphics g = drawingPanel.getGraphics();
-		
-		BufferedImage image;
-		try {
-			String fileName =  getRandomType();  //"src/plane.jpg";
-			//File imageFile = new File(fileName);
-			File imageFile = new File("src/plane-red.png");
-			//System.out.println(imageFile.getAbsolutePath() );			
-			image = ImageIO.read(imageFile );
-			
-			g.drawImage(image, getRandomX(), getRandomY(), null);
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
-	
 	
 	public static int getRandomX(){
 		return (int)(Math.random()*(windowWidth-100));
@@ -557,10 +271,61 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public static int getRandomY(){
 		return (int)(Math.random()*(windowHeight-100));
 	}
+}
+
+class Renderer implements Runnable {
+	private Thread t;
+	private String threadName;
 	
-	public static String getRandomType(){
-		Random random = new Random();
-		int index = random.nextInt(planeTypes.length);
-		return planeTypes[index];
-	}	
+	Renderer(){
+		threadName = "renderer";
+	}
+	
+	public void run() {
+		try {
+	         
+			Graphics g = main.drawingPanel.getGraphics();
+			main.drawingPanel.setFocusable(true);
+			main.drawingPanel.requestFocus();
+			main.drawingPanel.repaint();
+			
+				List<Enemy> e = main.enemies;
+				for(int i = 0; i < e.size(); i++) {
+					
+					Enemy E = e.get(i);
+					BufferedImage image = ImageIO.read(E.getImage());
+			
+					g.drawImage(image, E.getX(), E.getY(), null);
+				}
+				int x = main.player.getX();
+				int y = main.player.getY();
+				g.drawImage(main.player.getImage(), x, y, null);
+				
+				try {
+					Thread.sleep(0);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				//drawingPanel.repaint(x/2-1, y, x/2+1, y/2+50);
+				
+				Thread.sleep(16);
+				
+				try {
+					Thread.sleep(0);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				//drawingPanel.repaint(x/2+25, y, x/2+26, y/2+50);
+	      } catch (IOException | InterruptedException e) {
+	      }
+	}
+	
+	public void start () {
+	      if (t == null) {
+	         t = new Thread (this, threadName);
+	         t.start ();
+	      }
+	   }
 }

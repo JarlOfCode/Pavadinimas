@@ -89,7 +89,7 @@ public class CircleEnemy implements Enemy {
 	}
 	
 	public void ShootLoop() throws InterruptedException {
-		executePattern();
-		Thread.sleep(5000);
+		ShootLooper sl = new ShootLooper(this, "sl1");
+		sl.start();
 	}
 }
