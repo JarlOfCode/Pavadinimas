@@ -45,6 +45,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	HashMap<String,JButton> buttonCache = new HashMap<String,JButton>();
 	static JTextArea chatBox = new JTextArea(5, 20);
 	static JScrollPane chatPanel = new JScrollPane(chatBox);
+		
 	
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
@@ -77,6 +78,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		GM.constant();
 		}
 	}
+	
 	
 	public void constant() {
 		requestFocusInWindow();
@@ -276,18 +278,21 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 class Renderer implements Runnable {
 	private Thread t;
 	private String threadName;
+	private BufferedImage bf;
 	
 	Renderer(){
 		threadName = "renderer";
 	}
 	
 	public void run() {
+		
 		try {
 	         
 			Graphics g = main.drawingPanel.getGraphics();
 			main.drawingPanel.setFocusable(true);
 			main.drawingPanel.requestFocus();
-			main.drawingPanel.repaint();
+			//main.drawingPanel.repaint();
+			main.drawingPanel.paint(g);
 			
 				List<Enemy> e = main.enemies;
 				for(int i = 0; i < e.size(); i++) {
@@ -297,9 +302,12 @@ class Renderer implements Runnable {
 			
 					g.drawImage(image, E.getX(), E.getY(), null);
 				}
+				BufferedImage bff = new BufferedImage( main.player.getWidth(), main.player.getHeight(), BufferedImage.TYPE_INT_RGB); 
+						
 				int x = main.player.getX();
 				int y = main.player.getY();
-				g.drawImage(main.player.getImage(), x, y, null);
+				//g.drawImage(main.player.getImage(), x, y, null);
+				g.drawImage(bff, x, y, null);
 				
 				try {
 					Thread.sleep(0);
@@ -320,6 +328,16 @@ class Renderer implements Runnable {
 				//drawingPanel.repaint(x/2+25, y, x/2+26, y/2+50);
 	      } catch (IOException | InterruptedException e) {
 	      }
+		
+	}
+	
+	public void update(Graphics g){
+         	paint(g);
+	}
+
+	public void paint(Graphics g){
+		bf = new BufferedImage( main.drawingPanel.getWidth(), main.drawingPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g.drawImage(bf,0,0,null);
 	}
 	
 	public void start () {
