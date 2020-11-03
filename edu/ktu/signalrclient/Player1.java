@@ -3,10 +3,20 @@ package edu.ktu.signalrclient;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Player1 {
+import AbstractFactoryAndPrototype.Big_Fast_Bullet;
+import AbstractFactoryAndPrototype.SmallBulletFactory;
+import AbstractFactoryAndPrototype.Small_Fast_Bullet;
+import DecoratorAndCommand.Player;
+import Observer.PlayerObserver;
+import Strategy.Bullet;
+
+public class Player1 implements Player {
 	private int dx;
 	private int dy;
 	private int Pos_X = 10;
@@ -19,6 +29,9 @@ public class Player1 {
 	private Image image;
 	private int Speed = 5;
 	private PlayerObserver o = new PlayerObserver();
+	
+	SmallBulletFactory F = new SmallBulletFactory();
+	List<Bullet> Bullets = new ArrayList<Bullet>();
 	
 	public Player1(){
 		loadImage();
@@ -38,6 +51,10 @@ public class Player1 {
 	    	Pos_X += x;
 	        Pos_Y += y;
 	        notifyObserver();
+	    }
+	    
+	    public void startConstantObserve() {
+	    	o.startConstant();
 	    }
 
 	    public int getX() {
@@ -66,7 +83,11 @@ public class Player1 {
 	    }
 	    
 	    public void playerShoot(){
-	    	System.out.println("Player shot a bullet");
+	    	//System.out.println("Player shot a bullet");
+			double radians = 270*Math.PI/180.0;
+			double[] bulletVelocity = { Math.cos(radians) * 7, Math.sin(radians) * 7 };
+			Small_Fast_Bullet b = F.createFastBullet(false, getX()+25, getY()+25, bulletVelocity) ;
+			Bullets.add(b);
 	    }
 
 	    public void keyPressed(KeyEvent e) throws IOException {
@@ -95,7 +116,7 @@ public class Player1 {
 	        }
 	        
 	        if (key == KeyEvent.VK_SPACE) {
-	            System.out.println("\"Space\" pressed");
+	            //System.out.println("\"Space\" pressed");
 	            this.playerShoot();
 	        }
 	    }
@@ -140,4 +161,7 @@ public class Player1 {
 			Speed = sp;
 		}
 		
+		public List<Bullet> getBullets(){
+			return this.Bullets;
+		}
 }

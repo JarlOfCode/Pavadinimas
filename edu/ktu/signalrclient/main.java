@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -29,6 +30,9 @@ import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 
+import FactoryAndBuilder.Enemy;
+import FactoryAndBuilder.EnemyFactory;
+import Strategy.Bullet;
 import io.reactivex.*;
 
 import java.util.AbstractList;
@@ -43,8 +47,6 @@ import java.awt.event.*;
 public class main extends JFrame implements ActionListener, Action2<String, String>{
 
 	HashMap<String,JButton> buttonCache = new HashMap<String,JButton>();
-	static JTextArea chatBox = new JTextArea(5, 20);
-	static JScrollPane chatPanel = new JScrollPane(chatBox);
 		
 	
 	static JPanel drawingPanel = new JPanel();
@@ -52,8 +54,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	static int windowHeight = 500;
 	EnemyFactory EF = new EnemyFactory();
 	GameSingleton GS = GameSingleton.getInstance();
-	
-	static String[] planeTypes = {"src/plane.jpg", "src/bomber.jpg", "src/helicopter.jpg"};
+	static File bulletFile = new File("src/Bullet.png");
 	
 	
 	
@@ -73,6 +74,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 		r = new Renderer();
 		r.start();
+		
+		player.startConstantObserve();
 		
 		while(true) {
 		GM.constant();
@@ -123,12 +126,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	}
 	
 	
-	
-	// MANO RASYTI
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 	    String command = ((JButton) e.getSource()).getActionCommand();
 	    JButton button = buttonCache.get(command);
 	    if(button.getText() == "Spawn Random Enemy") {
@@ -152,20 +151,13 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			try {
 				test.Spawn();
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			try {
 				spawnEnemy(test);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-	    }
-	    else if(button.getText() == "Get Time and Score") {
-	    	SendMessage("JavaClient", command);
-	    	chatBox.append("\nTime: " + GS.getTime());
-	    	chatBox.append("\nScore: " + GS.getScore());
 	    }
 	    else if(button.getText() == "Observer") {
 	    	SendMessage("JavaClient", command);
@@ -198,7 +190,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		drawingPanel.setBackground(Color.WHITE);
 		drawingPanel.setSize(windowWidth, windowHeight);
 		setLocationRelativeTo(null);
-		workPanel.add(drawingPanel);//, BorderLayout.NORTH);
+		workPanel.add(drawingPanel);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
@@ -209,23 +201,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		button.addActionListener(this);
 		buttonsPanel.add(button, BorderLayout.CENTER);
 		buttonCache.put(button.getText(), button);
-		
-		JButton buttonLeft = new JButton("Get Time and Score");
-		buttonLeft.addActionListener(this);
-		buttonsPanel.add(buttonLeft, BorderLayout.WEST);
-		buttonCache.put(buttonLeft.getText(), buttonLeft);
-		
-		JButton buttonRight = new JButton("Spawn a Player");
-		buttonRight.addActionListener(this);
-		buttonsPanel.add(buttonRight, BorderLayout.EAST);
-		buttonCache.put(buttonRight.getText(), buttonRight);
-		
-		// Copy + Paste
-		
-		JButton buttonUp = new JButton("Up");
-		buttonUp.addActionListener(this);
-		buttonsPanel.add(buttonUp, BorderLayout.NORTH);
-		buttonCache.put(buttonUp.getText(), buttonUp);
 		
 		JButton buttonDown = new JButton("Observer");
 		buttonDown.addActionListener(this);
@@ -239,23 +214,15 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	}
 	
 	public static void ReceiveMessage(String user, String message) {
-		//String msg = "RCV: " + user + ": " + message;
 		String msg = user + ": " + message;
 		System.out.println(msg);
 	}
     
     public static void SendMessage(String user, String message) {
-        
-        //String url = "https://chatroom2019.azurewebsites.net/signalr/";
-        //String url = "https://localhost:5001/signalr/";
         String url = "http://localhost:5000/gamehub";
         
 
         HubConnection hubConnection = HubConnectionBuilder.create(url).build();
-        
-        //System.out.println("connection established");   
-        
-        //This is a blocking call
         hubConnection.start().blockingAwait();
 
         String Id = hubConnection.getConnectionId();
@@ -285,13 +252,18 @@ class Renderer implements Runnable {
 	}
 	
 	public void run() {
-		
+		BufferedImage bulletImage = null;
+		try {
+			bulletImage = ImageIO.read(main.bulletFile);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		try {
 	         
 			Graphics g = main.drawingPanel.getGraphics();
 			main.drawingPanel.setFocusable(true);
 			main.drawingPanel.requestFocus();
-			//main.drawingPanel.repaint();
 			main.drawingPanel.paint(g);
 			
 				List<Enemy> e = main.enemies;
@@ -301,12 +273,29 @@ class Renderer implements Runnable {
 					BufferedImage image = ImageIO.read(E.getImage());
 			
 					g.drawImage(image, E.getX(), E.getY(), null);
+					
+					
+					
+					
+					for(int u = 0; u < E.getBullets().size(); u++) {
+						if(E.getBullets().get(u).timeAlive > 100) {
+							E.removeBullet(u);
+						}
+						else {
+						E.getBullets().get(u).Move();
+						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
+						}
+					}
 				}
-				BufferedImage bff = new BufferedImage( main.player.getWidth(), main.player.getHeight(), BufferedImage.TYPE_INT_RGB); 
-						
+				Image bff = main.player.getImage();	
+				
+				for(int i = 0; i < main.player.getBullets().size(); i++) {
+					main.player.getBullets().get(i).Move();
+					g.drawImage(bulletImage, main.player.getBullets().get(i).getX(), main.player.getBullets().get(i).getY(), null);
+				}
+				
 				int x = main.player.getX();
 				int y = main.player.getY();
-				//g.drawImage(main.player.getImage(), x, y, null);
 				g.drawImage(bff, x, y, null);
 				
 				try {
@@ -315,8 +304,6 @@ class Renderer implements Runnable {
 					e1.printStackTrace();
 				}
 				
-				//drawingPanel.repaint(x/2-1, y, x/2+1, y/2+50);
-				
 				Thread.sleep(16);
 				
 				try {
@@ -324,8 +311,6 @@ class Renderer implements Runnable {
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				
-				//drawingPanel.repaint(x/2+25, y, x/2+26, y/2+50);
 	      } catch (IOException | InterruptedException e) {
 	      }
 		
@@ -345,5 +330,5 @@ class Renderer implements Runnable {
 	         t = new Thread (this, threadName);
 	         t.start ();
 	      }
-	   }
+	  }
 }
