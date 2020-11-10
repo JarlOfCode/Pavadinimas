@@ -33,6 +33,7 @@ import com.microsoft.signalr.HubConnectionState;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import Strategy.Bullet;
+import Testing.ManualTests;
 import io.reactivex.*;
 
 import java.util.AbstractList;
@@ -65,7 +66,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	public static void main(String[] args) throws IOException{
 		
-		main GM = new main();
+		/*main GM = new main();
 		
 		GM.gui();
 		
@@ -79,7 +80,10 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 		while(true) {
 		GM.constant();
-		}
+		}*/
+		
+		ManualTests mt = new ManualTests();
+		mt.evaluatesExpression();
 	}
 	
 	
