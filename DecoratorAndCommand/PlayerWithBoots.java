@@ -20,12 +20,27 @@ public class PlayerWithBoots extends Decorator {
 
 	@Override
 	public void SetMaxHP(int hp) {
-		HP = hp;
+		MaxHP = hp;
 	}
 
 	@Override
 	public void SetSpeed(int sp) {
-		Move_Speed = sp;
+		Speed = sp;
+	}
+
+	@Override
+	public int GetHP() {
+		return HP;
+	}
+
+	@Override
+	public int GetMaxHP() {
+		return MaxHP;
+	}
+	
+	@Override
+	public int GetSpeed() {
+		return Speed;
 	}
 	
 	/*public void update() {

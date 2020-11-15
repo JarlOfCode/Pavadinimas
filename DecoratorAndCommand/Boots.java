@@ -11,8 +11,8 @@ public class Boots implements Pickup {
 	}
 	
 	@Override
-	public void execute(Player p) {
-		i.SetSpeed(p);
+	public Player execute(Player p) {
+		return i.SetSpeed(p);
 	}
 
 }

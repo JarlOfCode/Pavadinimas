@@ -4,8 +4,9 @@ import edu.ktu.signalrclient.Player1;
 
 public class Item {
 	
-	public void AddHealth(Player p) {
+	public Player AddHealth(Player p) {
 		p.AddHP(2);
+		return p;
 	}
 	
 	public Player SetSpeed(Player p) {
@@ -15,7 +16,9 @@ public class Item {
 	}
 	
 	public Player SetHealth(Player p) {
+		
 		PlayerWithArmor pwa = new PlayerWithArmor(p);
+		System.out.println(pwa.GetMaxHP());
 		pwa.Decorate(pwa);
 		return pwa;
 	}

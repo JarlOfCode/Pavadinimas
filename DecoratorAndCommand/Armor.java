@@ -11,8 +11,8 @@ public class Armor implements Pickup {
 	}
 	
 	@Override
-	public void execute(Player p) {
-		i.SetHealth(p);
+	public Player execute(Player p) {
+		return i.SetHealth(p);
 	}
 
 }

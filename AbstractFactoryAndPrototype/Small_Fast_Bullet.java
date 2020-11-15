@@ -8,7 +8,7 @@ public class Small_Fast_Bullet extends FastBullet implements Cloneable {
 		super();
 	}
 	
-	public Small_Fast_Bullet(boolean Friendly, int posX, int posY, double[] vel) {
+	public Small_Fast_Bullet(boolean Friendly, int posX, int posY, int[] vel) {
 		super(Friendly, posX, posY, vel);
 		// TODO Auto-generated constructor stub
 	}

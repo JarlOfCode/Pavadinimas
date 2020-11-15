@@ -76,7 +76,7 @@ public class BurstEnemy implements Enemy {
 	@Override
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
-		double[] a = { 0, 0 };
+		int[] a = { 0, 0 };
 		Small_Fast_Bullet b = F.createFastBullet(false, getX()+35, getY()+35, a) ;
 		System.out.println("BurstEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
@@ -88,7 +88,7 @@ public class BurstEnemy implements Enemy {
 		Random random = new Random();
     	int ran = random.nextInt(360) + 1;
 		double radians = ran*Math.PI/180.0;
-		double[] bulletVelocity = { Math.cos(radians) * 7, Math.sin(radians) * 7 };
+		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 		Small_Fast_Bullet b = F.createFastBullet(false, getX()+35, getY()+35, bulletVelocity) ;
 		System.out.println("BurstEnemy shot random " + b.getClass());
 		Bullets.add(b);

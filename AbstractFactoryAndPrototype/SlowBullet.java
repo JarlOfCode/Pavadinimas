@@ -6,7 +6,7 @@ import Strategy.Bullet;
 
 public class SlowBullet extends Bullet {
 
-	public SlowBullet(boolean Friendly, int posx, int posy, double[] vel) {
+	public SlowBullet(boolean Friendly, int posx, int posy, int[] vel) {
 		super(Friendly, posx, posy, vel);
 	}
 

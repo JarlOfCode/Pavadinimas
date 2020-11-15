@@ -8,15 +8,14 @@ import Observer.BulletObserver;
 public abstract class Bullet {
 	
 	int damage = 0;
-	int speed = 0;
 	boolean friendly = false;
 	int pos_x = 0;
 	int pos_y = 0;
-	double[] vel;
+	int[] vel;
 	public int timeAlive = 0;
 	BulletObserver bo = new BulletObserver();
 	
-	public Bullet(boolean Friendly, int posx, int posy, double[] vel) {
+	public Bullet(boolean Friendly, int posx, int posy, int[] vel) {
 		pos_x = posx;
 		pos_y = posy;
 		this.vel = vel;
@@ -31,8 +30,8 @@ public abstract class Bullet {
 		return damage;
 	}
 	
-	public int getSpeed() {
-		return speed;
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 	
 	public int getX() {
@@ -66,8 +65,12 @@ public abstract class Bullet {
 		friendly = f;
 	}
 	
-	public void setVel(double[] vel) {
+	public void setVel(int[] vel) {
 		this.vel = vel;
+	}
+	
+	public int[] getVel() {
+		return this.vel;
 	}
 }
 

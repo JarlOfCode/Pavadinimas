@@ -23,4 +23,7 @@ public interface Player {
 	void AddHP(int hp);
 	void SetMaxHP(int hp);
 	void SetSpeed(int sp);
+	int GetHP();
+	int GetMaxHP();
+	int GetSpeed();
 }

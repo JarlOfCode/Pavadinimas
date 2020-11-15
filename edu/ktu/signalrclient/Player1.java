@@ -24,7 +24,6 @@ public class Player1 implements Player {
 	private int i_width;
 	private int i_heigt;
 	private int HP = 3;
-	private int Move_Speed;
 	private int MaxHP = 3;
 	private Image image;
 	private int Speed = 5;
@@ -85,7 +84,7 @@ public class Player1 implements Player {
 	    public void playerShoot(){
 	    	//System.out.println("Player shot a bullet");
 			double radians = 270*Math.PI/180.0;
-			double[] bulletVelocity = { Math.cos(radians) * 7, Math.sin(radians) * 7 };
+			int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 			Small_Fast_Bullet b = F.createFastBullet(false, getX()+25, getY()+25, bulletVelocity) ;
 			Bullets.add(b);
 	    }
@@ -159,6 +158,18 @@ public class Player1 implements Player {
 		
 		public void SetSpeed(int sp) {
 			Speed = sp;
+		}
+		
+		public int GetHP() {
+			return HP;
+		}
+		
+		public int GetMaxHP() {
+			return MaxHP;
+		}
+		
+		public int GetSpeed() {
+			return Speed;
 		}
 		
 		public List<Bullet> getBullets(){

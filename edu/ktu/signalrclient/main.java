@@ -33,7 +33,6 @@ import com.microsoft.signalr.HubConnectionState;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import Strategy.Bullet;
-import Testing.ManualTests;
 import io.reactivex.*;
 
 import java.util.AbstractList;
@@ -82,8 +81,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		GM.constant();
 		}*/
 		
-		ManualTests mt = new ManualTests();
-		mt.evaluatesExpression();
 	}
 	
 	

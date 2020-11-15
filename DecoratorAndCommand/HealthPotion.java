@@ -11,8 +11,8 @@ public class HealthPotion implements Pickup {
 	}
 	
 	@Override
-	public void execute(Player p) {
-		i.AddHealth(p);
+	public Player execute(Player p) {
+		return i.AddHealth(p);
 	}
 
 }

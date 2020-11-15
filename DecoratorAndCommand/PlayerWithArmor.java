@@ -3,7 +3,7 @@ package DecoratorAndCommand;
 import edu.ktu.signalrclient.Player1;
 
 public class PlayerWithArmor extends Decorator {
-	protected Player1 p;
+	//protected Player1 p;
 	
 	public PlayerWithArmor(Player p) {
 		super(p);
@@ -25,7 +25,22 @@ public class PlayerWithArmor extends Decorator {
 
 	@Override
 	public void SetSpeed(int sp) {
-		Move_Speed = sp;
+		Speed = sp;
+	}
+	
+	@Override
+	public int GetHP() {
+		return HP;
+	}
+
+	@Override
+	public int GetMaxHP() {
+		return MaxHP;
+	}
+	
+	@Override
+	public int GetSpeed() {
+		return Speed;
 	}
 	
 	/*public void update() {

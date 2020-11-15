@@ -6,7 +6,7 @@ import Strategy.Bullet;
 
 public class FastBullet extends Bullet {
 
-	public FastBullet(boolean friendly, int posX, int posY, double[] vel) {
+	public FastBullet(boolean friendly, int posX, int posY, int[] vel) {
 		super(friendly, posX, posY, vel);
 		// TODO Auto-generated constructor stub
 	}
