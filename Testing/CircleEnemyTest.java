@@ -4,76 +4,141 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CircleEnemyTest {
+import AbstractFactoryAndPrototype.FastBullet;
+import FactoryAndBuilder.BurstEnemy;
+import FactoryAndBuilder.CircleEnemy;
+import Strategy.Bullet;
 
+public class CircleEnemyTest {
+	/*
+	 * KINDA DONE, ATKREIPKIT DEMESI I KOMENTARUS
+	 * 
+	 * 
+	 * 
+	 * */
 	@Test
 	public void testSpawn() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		try {
+			enemy.Spawn();
+			System.out.println("Gerai");
+		} catch (InterruptedException e) {
+			System.out.println("Blogai");
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testGetEnemy() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		enemy.getEnemy();
 	}
 
 	@Test
 	public void testGetImage() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		enemy.getImage();
 	}
 
 	@Test
-	public void testSetX() {
-		fail("Not yet implemented");
+	public void testGetSetX() {
+		CircleEnemy enemy = new CircleEnemy();
+		int altX = 5;
+		try {
+			assertEquals(0, enemy.getX());
+			enemy.setX(altX);
+			assertEquals(altX, enemy.getX());
+			System.out.println("Gerai");
+		} catch (AssertionError e) {
+			System.out.println("Blogai");
+			throw e;
+		}	
 	}
 
 	@Test
-	public void testSetY() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetX() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetY() {
-		fail("Not yet implemented");
+	public void testGetSetY() {
+		CircleEnemy enemy = new CircleEnemy();
+		int altY = 5;
+		try {
+			assertEquals(0, enemy.getY());
+			enemy.setY(altY);
+			assertEquals(altY, enemy.getY());
+			System.out.println("Gerai");
+		} catch (AssertionError e) {
+			System.out.println("Blogai");
+			throw e;
+		}
 	}
 
 	@Test
 	public void testIsHit() {
-		fail("Not yet implemented");
+		Bullet bullet = new FastBullet(false, 0, 0, null);
+		CircleEnemy enemy = new CircleEnemy();
+		//int enemyHealth = enemy.HP;
+		try {
+			enemy.isHit(bullet);
+			//assertEquals(enemyHealth - 1, enemy.HP);
+		} catch (AssertionError e) {
+			System.out.println("Blogai");
+			throw e;
+		}
 	}
 
 	@Test
 	public void testExecutePattern() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		try {
+			enemy.executePattern();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testShootInt() {
-		fail("Not yet implemented");
+		//netestuota kokie rezultatai
+		CircleEnemy enemy = new CircleEnemy();
+		int degree = 30;
+		enemy.Shoot(degree);
 	}
 
 	@Test
 	public void testShoot() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		enemy.Shoot();
 	}
 
 	@Test
 	public void testGetBullets() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		enemy.Shoot();
+		try {
+			int bulletNumber = enemy.getBullets().size();
+			assertEquals(1, bulletNumber);
+		} catch (AssertionError e) {
+			throw e;			
+		}	
 	}
 
 	@Test
 	public void testShootLoop() {
-		fail("Not yet implemented");
+		//no idea ka shootLoop daro?
+		CircleEnemy enemy = new CircleEnemy();
+		try {
+			enemy.ShootLoop();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testRemoveBullet() {
-		fail("Not yet implemented");
+		CircleEnemy enemy = new CircleEnemy();
+		enemy.Shoot();
+		try {
+			enemy.removeBullet(0);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
-
 }

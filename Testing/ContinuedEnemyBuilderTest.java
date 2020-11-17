@@ -10,5 +10,4 @@ public class ContinuedEnemyBuilderTest {
 	public void testAddBoots() {
 		fail("Not yet implemented");
 	}
-
 }

@@ -4,11 +4,16 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import FactoryAndBuilder.BurstEnemy;
+import FactoryAndBuilder.Enemy;
+import Strategy.Burst;
+
 public class CircularBurstTest {
 
 	@Test
-	public void testExecutePattern() {
-		fail("Not yet implemented");
+	public void testExecutePattern() throws InterruptedException {
+		Enemy enemy = new BurstEnemy();
+		Burst burst = new Burst();
+		burst.executePattern(enemy);
 	}
-
 }
