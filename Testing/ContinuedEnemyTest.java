@@ -4,11 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import FactoryAndBuilder.ContinuedEnemy;
+
 public class ContinuedEnemyTest {
 
 	@Test
 	public void testGetConfiguration() {
-		fail("Not yet implemented");
+		ContinuedEnemy enemy = new ContinuedEnemy();
+		
 	}
 
 	@Test

@@ -24,5 +24,4 @@ public class BigBulletFactoryTest {
 		bbf.createFastBullet(true, 0, 0, i);
 		return;
 	}
-
 }
