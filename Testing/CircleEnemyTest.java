@@ -10,12 +10,7 @@ import FactoryAndBuilder.CircleEnemy;
 import Strategy.Bullet;
 
 public class CircleEnemyTest {
-	/*
-	 * KINDA DONE, ATKREIPKIT DEMESI I KOMENTARUS
-	 * 
-	 * 
-	 * 
-	 * */
+	
 	@Test
 	public void testSpawn() {
 		CircleEnemy enemy = new CircleEnemy();
@@ -72,6 +67,10 @@ public class CircleEnemyTest {
 
 	@Test
 	public void testIsHit() {
+		/*
+		 * 
+		 * truksta pagalbiniu metodu - getHealth
+		 * */
 		Bullet bullet = new FastBullet(false, 0, 0, null);
 		CircleEnemy enemy = new CircleEnemy();
 		//int enemyHealth = enemy.HP;
@@ -96,7 +95,6 @@ public class CircleEnemyTest {
 
 	@Test
 	public void testShootInt() {
-		//netestuota kokie rezultatai
 		CircleEnemy enemy = new CircleEnemy();
 		int degree = 30;
 		enemy.Shoot(degree);
@@ -122,7 +120,6 @@ public class CircleEnemyTest {
 
 	@Test
 	public void testShootLoop() {
-		//no idea ka shootLoop daro?
 		CircleEnemy enemy = new CircleEnemy();
 		try {
 			enemy.ShootLoop();

@@ -2,6 +2,8 @@ package Testing;
 
 import static org.junit.Assert.*;
 
+import java.awt.event.KeyEvent;
+
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
