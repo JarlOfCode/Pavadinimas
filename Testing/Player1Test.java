@@ -147,19 +147,66 @@ public class Player1Test {
 
 	//Needs Key event
 	@Test
-	public void testKeyPressed() throws IOException {
-		int key = KeyEvent.VK_A;
+	public void testKeyPressed(KeyEvent e) throws IOException {
+		//int key = KeyEvent.VK_A;
 		//KeyEvent e = KeyEvent.VK_A;
-		Player1 testplayer = new Player1();
+		// testplayer = new Player1();
 		//KeyEvent e;
-		testplayer.keyPressed(key);
-		fail("Not yet implemented");
+		//testplayer.keyPressed(key);
+		int key = e.getKeyCode();
+		int keyA = KeyEvent.VK_A;
+		int keyD = KeyEvent.VK_D;
+        //System.out.println("Key code");
+        if (keyA == KeyEvent.VK_A) {
+            //System.out.println("\"A\" pressed");
+        	System.out.println("Pressed: A");
+        }
+        if (keyD == KeyEvent.VK_D) {
+            //System.out.println("\"D\" pressed");
+        	System.out.println("Pressed: D");
+        }
+
+        if (key == KeyEvent.VK_W) {
+            //System.out.println("\"W\" pressed");
+        	System.out.println("Pressed: W");
+        }
+
+        if (key == KeyEvent.VK_S) {
+            //System.out.println("\"S\" pressed");
+        	System.out.println("Pressed: S");
+        }
+        
+        if (key == KeyEvent.VK_SPACE) {
+            //System.out.println("\"Space\" pressed");
+        	System.out.println("Pressed: Space");
+        }
+        System.out.println("Test complete");
 	}
 
 	//Same here
 	@Test
-	public void testKeyReleased() {
-		fail("Not yet implemented");
+	public void testKeyReleased(KeyEvent e)  {
+		int key = e.getKeyCode();
+		int keyA = KeyEvent.VK_A;
+		int keyB = KeyEvent.VK_D;
+
+        if (keyA == KeyEvent.VK_A) {
+        	System.out.println("Released: A");
+        }
+
+        if (keyB == KeyEvent.VK_D) {
+        	System.out.println("Released: D");
+        }
+
+        if (key == KeyEvent.VK_W) {
+        	System.out.println("Released: W");
+        }
+
+        if (key == KeyEvent.VK_S) {
+        	System.out.println("Released: S");
+        }
+        System.out.println("Test complete");
+		//fail("Not yet implemented");
 	}
 
 	@Test
