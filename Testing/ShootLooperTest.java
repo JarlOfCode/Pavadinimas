@@ -4,21 +4,36 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import FactoryAndBuilder.Enemy;
+import FactoryAndBuilder.SpiralEnemy;
+import Strategy.ShootLooper;
+
 public class ShootLooperTest {
 
 	@Test
 	public void testShootLooper() {
-		fail("Not yet implemented");
+		Enemy e = new SpiralEnemy();
+		ShootLooper SL = new ShootLooper(e, "Spiral");
+		System.out.println("Test complete");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testRun() {
-		fail("Not yet implemented");
+		Enemy e = new SpiralEnemy();
+		ShootLooper SL = new ShootLooper(e, "Spiral");
+		SL.run();
+		System.out.println("Test complete");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testStart() {
-		fail("Not yet implemented");
+		Enemy e = new SpiralEnemy();
+		ShootLooper SL = new ShootLooper(e, "Spiral");
+		SL.start();
+		System.out.println("Test complete");
+		//fail("Not yet implemented");
 	}
 
 }
