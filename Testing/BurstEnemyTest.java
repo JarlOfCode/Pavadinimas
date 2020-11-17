@@ -9,13 +9,6 @@ import FactoryAndBuilder.BurstEnemy;
 import Strategy.Bullet;
 
 public class BurstEnemyTest {
-	/*
-	 * KINDA DONE, ATKREIPKIT DEMESI I KOMENTARUS
-	 * 
-	 * 
-	 * 
-	 * */
-
 	@Test
 	public void testSpawn() {
 		BurstEnemy enemy = new BurstEnemy();
