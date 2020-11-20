@@ -7,7 +7,8 @@ import java.util.Random;
 
 import AbstractFactoryAndPrototype.BigBulletFactory;
 import AbstractFactoryAndPrototype.Big_Fast_Bullet;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 import Strategy.Burst;
 import Strategy.ContinuedFire;
 import Strategy.Patterns;
@@ -23,7 +24,7 @@ public class ContinuedEnemy implements Enemy {
 	File imageFile = new File("src/Enemy_Small_2.png");
 	int xPos = 0;
 	int yPos = 0;
-	int HP = 4;
+	public int HP = 4;
 	Patterns pattern = new ContinuedFire();
 	
 	BigBulletFactory F = new BigBulletFactory();
@@ -95,7 +96,8 @@ public class ContinuedEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
 		int[] a = { 0, 0 };
-		Big_Fast_Bullet b = F.createFastBullet(false, getX()+65, getY()+65, a) ;
+		BulletType bt = new BulletType(4, false);
+		Big_Fast_Bullet b = F.createFastBullet(getX()+65, getY()+65, a, bt) ;
 		System.out.println("ContinuedEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
@@ -107,7 +109,8 @@ public class ContinuedEnemy implements Enemy {
     	int ran = random.nextInt(360) + 1;
 		double radians = ran*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		Big_Fast_Bullet b = F.createFastBullet(false, getX()+35, getY()+35, bulletVelocity) ;
+		BulletType bt = new BulletType(6, false);
+		Big_Fast_Bullet b = F.createFastBullet(getX()+35, getY()+35, bulletVelocity, bt) ;
 		System.out.println("Continued shot random " + b.getClass());
 		Bullets.add(b);
 		

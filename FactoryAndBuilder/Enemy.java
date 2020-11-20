@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
 
 public abstract interface Enemy {
 File imageFile = null;
@@ -18,7 +18,6 @@ File imageFile = null;
 	int getX();
 	int getY();
 	int HP = 0;
-	int Move_Speed = 0;
 	int Value = 0;
 	
 	void executePattern() throws InterruptedException;

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import AbstractFactoryAndPrototype.FastBullet;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
 
 public class FastBulletTest {
 

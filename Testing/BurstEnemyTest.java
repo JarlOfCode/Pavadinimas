@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import AbstractFactoryAndPrototype.FastBullet;
 import FactoryAndBuilder.BurstEnemy;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
 
 public class BurstEnemyTest {
 	/*
@@ -72,7 +72,7 @@ public class BurstEnemyTest {
 
 	@Test
 	public void testIsHit() {
-		Bullet bullet = new FastBullet(false, 0, 0, null);
+		Bullet bullet = new FastBullet(0, 0, null, null);
 		BurstEnemy enemy = new BurstEnemy();
 		//int enemyHealth = enemy.HP;
 		try {

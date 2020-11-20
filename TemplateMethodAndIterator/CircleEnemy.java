@@ -1,4 +1,4 @@
-package FactoryAndBuilder;
+package TemplateMethodAndIterator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,9 @@ import java.util.Vector;
 
 import AbstractFactoryAndPrototype.SmallBulletFactory;
 import AbstractFactoryAndPrototype.Small_Slow_Bullet;
-import Strategy.Bullet;
+import FactoryAndBuilder.Enemy;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 import Strategy.CircularBurst;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
@@ -17,6 +19,7 @@ public class CircleEnemy implements Enemy {
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
+	int Value = 1;
 	Patterns pattern = new CircularBurst();
 	
 	SmallBulletFactory F = new SmallBulletFactory();
@@ -77,7 +80,9 @@ public class CircleEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		double radians = c_degree*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		Small_Slow_Bullet b = F.createSlowBullet(false, getX()+55, getY()+55, bulletVelocity) ;
+		BulletType bt = new BulletType(4, false);
+
+		Small_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
 		System.out.println("CircleEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
@@ -86,7 +91,9 @@ public class CircleEnemy implements Enemy {
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		int[] a = { 0, 0 };
-		Small_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a) ;
+		BulletType bt = new BulletType(4, false);
+
+		Small_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
@@ -104,5 +111,21 @@ public class CircleEnemy implements Enemy {
 	@Override
 	public void removeBullet(int u) {
 		Bullets.remove(u);
+	}
+	
+	public void setValue(int v) {
+		this.Value = v;
+	}
+	
+	public void setHealth(int h) {
+		this.HP = h;
+	}
+	
+	public int getValue() {
+		return this.Value;
+	}
+	
+	public int getHP() {
+		return this.HP;
 	}
 }

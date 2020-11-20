@@ -13,8 +13,10 @@ import AbstractFactoryAndPrototype.Big_Fast_Bullet;
 import AbstractFactoryAndPrototype.SmallBulletFactory;
 import AbstractFactoryAndPrototype.Small_Fast_Bullet;
 import DecoratorAndCommand.Player;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
+import FlyweightAndState.State;
 import Observer.PlayerObserver;
-import Strategy.Bullet;
 
 public class Player1 implements Player {
 	private int dx;
@@ -28,6 +30,8 @@ public class Player1 implements Player {
 	private Image image;
 	private int Speed = 5;
 	private PlayerObserver o = new PlayerObserver();
+	private State state;
+	private boolean playing = false;
 	
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
@@ -81,11 +85,34 @@ public class Player1 implements Player {
 	        return image;
 	    }
 	    
+	    public void changeState(State state) {
+	    	this.state = state;
+	    }
+	    
+	    public State getState() {
+	    	return this.state;
+	    }
+	    
+	    public void setPlaying(boolean playing) {
+	        this.playing = playing;
+	    }
+	    
+	    public boolean isPlaying() {
+	    	return playing;
+	    }
+	    
+	    public String getStats() {
+			return "Mock stats";
+	    	// mock for observer
+	    }
+	    
 	    public void playerShoot(){
 	    	//System.out.println("Player shot a bullet");
 			double radians = 270*Math.PI/180.0;
 			int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-			Small_Fast_Bullet b = F.createFastBullet(false, getX()+25, getY()+25, bulletVelocity) ;
+			BulletType bt = new BulletType(1, false);
+
+			Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt) ;
 			Bullets.add(b);
 	    }
 

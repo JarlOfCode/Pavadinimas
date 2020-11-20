@@ -2,14 +2,16 @@ package AbstractFactoryAndPrototype;
 
 import java.util.Vector;
 
+import FlyweightAndState.BulletType;
+
 public class Small_Fast_Bullet extends FastBullet implements Cloneable {
 
 	public Small_Fast_Bullet() {
 		super();
 	}
 	
-	public Small_Fast_Bullet(boolean Friendly, int posX, int posY, int[] vel) {
-		super(Friendly, posX, posY, vel);
+	public Small_Fast_Bullet(int posX, int posY, int[] vel, BulletType type) {
+		super(posX, posY, vel, type);
 		// TODO Auto-generated constructor stub
 	}
 	

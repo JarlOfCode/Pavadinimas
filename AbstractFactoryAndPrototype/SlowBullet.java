@@ -2,12 +2,13 @@ package AbstractFactoryAndPrototype;
 
 import java.util.Vector;
 
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 
 public class SlowBullet extends Bullet {
 
-	public SlowBullet(boolean Friendly, int posx, int posy, int[] vel) {
-		super(Friendly, posx, posy, vel);
+	public SlowBullet(int posX, int posY, int[] vel, BulletType type) {
+		super(posX, posY, vel, type);
 	}
 
 }

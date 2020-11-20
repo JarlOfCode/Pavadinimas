@@ -2,12 +2,13 @@ package AbstractFactoryAndPrototype;
 
 import java.util.Vector;
 
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 
 public class FastBullet extends Bullet {
 
-	public FastBullet(boolean friendly, int posX, int posY, int[] vel) {
-		super(friendly, posX, posY, vel);
+	public FastBullet(int posX, int posY, int[] vel, BulletType type) {
+		super(posX, posY, vel, type);
 		// TODO Auto-generated constructor stub
 	}
 

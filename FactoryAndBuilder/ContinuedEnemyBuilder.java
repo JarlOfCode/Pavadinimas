@@ -1,9 +1,9 @@
 package FactoryAndBuilder;
 
 public class ContinuedEnemyBuilder extends IBuilder{
-	public IBuilder addBoots(){
-		CE.setConfiguration(CE.getConfiguration() + " / boots");
-		CE.speed = CE.speed * 1.50;
+	public IBuilder addArmor(){
+		CE.setConfiguration(CE.getConfiguration() + " / armor");
+		CE.HP = CE.HP * 2;
 		return this;
 	}
 }

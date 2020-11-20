@@ -1,4 +1,4 @@
-package Strategy;
+package FlyweightAndState;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -6,20 +6,20 @@ import java.util.Vector;
 import Observer.BulletObserver;
 
 public abstract class Bullet {
-	
-	int damage = 0;
-	boolean friendly = false;
 	int pos_x = 0;
 	int pos_y = 0;
 	int[] vel;
 	public int timeAlive = 0;
+	private BulletType type;
+	
+	
 	BulletObserver bo = new BulletObserver();
 	
-	public Bullet(boolean Friendly, int posx, int posy, int[] vel) {
+	public Bullet(int posx, int posy, int[] vel, BulletType type) {
 		pos_x = posx;
 		pos_y = posy;
 		this.vel = vel;
-		friendly = Friendly;
+		this.type = type;
 	}
 	
 	public Bullet() {
@@ -27,11 +27,11 @@ public abstract class Bullet {
 	}
 
 	public int getDamage() {
-		return damage;
+		return type.damage;
 	}
 	
 	public void setDamage(int damage) {
-		this.damage = damage;
+		this.type.damage = damage;
 	}
 	
 	public int getX() {
@@ -43,7 +43,7 @@ public abstract class Bullet {
 	}
 	
 	public boolean getFriendly() {
-		return friendly;
+		return type.friendly;
 	}
 	
 	public void Move() throws IOException {
@@ -61,16 +61,16 @@ public abstract class Bullet {
 		pos_y = y;
 	}
 	
-	public void setFriendly(boolean f) {
-		friendly = f;
-	}
-	
 	public void setVel(int[] vel) {
 		this.vel = vel;
 	}
 	
 	public int[] getVel() {
 		return this.vel;
+	}
+	
+	public void setType(BulletType bt) {
+		this.type = bt;
 	}
 }
 

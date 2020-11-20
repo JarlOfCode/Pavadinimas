@@ -6,7 +6,8 @@ import java.util.List;
 import AbstractFactoryAndPrototype.BigBulletFactory;
 import AbstractFactoryAndPrototype.Big_Slow_Bullet;
 import AbstractFactoryAndPrototype.Small_Slow_Bullet;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 import Strategy.Burst;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
@@ -78,7 +79,8 @@ public class SpiralEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		double radians = c_degree*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		Big_Slow_Bullet b = F.createSlowBullet(false, getX()+55, getY()+55, bulletVelocity) ;
+		BulletType bt = new BulletType(6, false);
+		Big_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
 		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
@@ -87,7 +89,8 @@ public class SpiralEnemy implements Enemy {
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		int[] a = { 0, 0 };
-		Big_Slow_Bullet b = F.createSlowBullet(false, getX(), getY(), a) ;
+		BulletType bt = new BulletType(6, false);
+		Big_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		

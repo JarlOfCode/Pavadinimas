@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import AbstractFactoryAndPrototype.FastBullet;
 import FactoryAndBuilder.BurstEnemy;
-import FactoryAndBuilder.CircleEnemy;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import TemplateMethodAndIterator.CircleEnemy;
 
 public class CircleEnemyTest {
 	/*
@@ -72,7 +72,7 @@ public class CircleEnemyTest {
 
 	@Test
 	public void testIsHit() {
-		Bullet bullet = new FastBullet(false, 0, 0, null);
+		Bullet bullet = new FastBullet(0, 0, null, null);
 		CircleEnemy enemy = new CircleEnemy();
 		//int enemyHealth = enemy.HP;
 		try {

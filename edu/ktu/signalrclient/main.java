@@ -32,12 +32,15 @@ import com.microsoft.signalr.HubConnectionState;
 
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
-import Strategy.Bullet;
+import FlyweightAndState.Bullet;
+import TemplateMethodAndIterator.EnemyRepository;
+import TemplateMethodAndIterator.IIterator;
 import io.reactivex.*;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -58,14 +61,17 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	
 	
-	static List<Enemy> enemies = new ArrayList<Enemy>();
+	//static List<Enemy> enemies = new ArrayList<Enemy>();
+	static EnemyRepository enemies = new EnemyRepository();
+	
+	
 	static List<Bullet> bullets = new ArrayList<Bullet>();
 	static Renderer r; 
 	static Player1 player;
 	
 	public static void main(String[] args) throws IOException{
 		
-		/*main GM = new main();
+		main GM = new main();
 		
 		GM.gui();
 		
@@ -79,7 +85,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 		while(true) {
 		GM.constant();
-		}*/
+		}
 		
 	}
 	
@@ -132,7 +138,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    String command = ((JButton) e.getSource()).getActionCommand();
 	    JButton button = buttonCache.get(command);
 	    if(button.getText() == "Spawn Random Enemy") {
-	    	SendMessage("JavaClient", command);
+	    	//SendMessage("JavaClient", command);
 	    	Random random = new Random();
 	    	int ran = random.nextInt(5 - 1) + 1;
 	    	Enemy test = null;
@@ -161,7 +167,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 			}
 	    }
 	    else if(button.getText() == "Observer") {
-	    	SendMessage("JavaClient", command);
+	    	//SendMessage("JavaClient", command);
 	    	
 	    }
 	}
@@ -169,7 +175,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public  void spawnEnemy(Enemy e) throws IOException{	
 		e.setX(getRandomX());
 		e.setY(getRandomY());
-		enemies.add(e);
+		enemies.addEnemy(e);
 		render();
 	}
 	
@@ -209,17 +215,17 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		buttonCache.put(buttonDown.getText(), buttonDown);
 	}
 
-	@Override
+	/*@Override
 	public void invoke(String name, String message) {
 		ReceiveMessage(name, message);
-	}
+	}*/
 	
-	public static void ReceiveMessage(String user, String message) {
+	/*public static void ReceiveMessage(String user, String message) {
 		String msg = user + ": " + message;
 		System.out.println(msg);
-	}
+	}*/
     
-    public static void SendMessage(String user, String message) {
+    /*public static void SendMessage(String user, String message) {
         String url = "http://localhost:5000/gamehub";
         
 
@@ -233,13 +239,20 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
         
         hubConnection.stop();
         
-    }
+    }*/
 	
 	public static int getRandomX(){
 		return (int)(Math.random()*(windowWidth-100));
 	}
 	public static int getRandomY(){
 		return (int)(Math.random()*(windowHeight-100));
+	}
+
+
+	@Override
+	public void invoke(String arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
@@ -267,7 +280,9 @@ class Renderer implements Runnable {
 			main.drawingPanel.requestFocus();
 			main.drawingPanel.paint(g);
 			
-				List<Enemy> e = main.enemies;
+				/*List<Enemy> e = main.enemies;
+				
+				
 				for(int i = 0; i < e.size(); i++) {
 					
 					Enemy E = e.get(i);
@@ -287,7 +302,31 @@ class Renderer implements Runnable {
 						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
 						}
 					}
+				}*/
+			
+				EnemyRepository e = main.enemies;
+			
+				for(IIterator iter = e.getIterator(); iter.hasNext();) {
+					Enemy E = (Enemy) iter.next();
+					BufferedImage image = ImageIO.read(E.getImage());
+			
+					g.drawImage(image, E.getX(), E.getY(), null);
+					
+					
+					
+					
+					for(int u = 0; u < E.getBullets().size(); u++) {
+						if(E.getBullets().get(u).timeAlive > 100) {
+							E.removeBullet(u);
+						}
+						else {
+						E.getBullets().get(u).Move();
+						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
+						}
+					}
 				}
+			
+			
 				Image bff = main.player.getImage();	
 				
 				for(int i = 0; i < main.player.getBullets().size(); i++) {

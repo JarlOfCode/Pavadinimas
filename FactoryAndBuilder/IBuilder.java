@@ -21,6 +21,6 @@ public abstract class IBuilder {
 		CE = new ContinuedEnemy();
 	}
 	
-	public abstract IBuilder addBoots();
+	public abstract IBuilder addArmor();
 	
 }
