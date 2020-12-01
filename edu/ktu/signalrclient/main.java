@@ -33,6 +33,7 @@ import com.microsoft.signalr.HubConnectionState;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import FlyweightAndState.Bullet;
+import FlyweightAndState.BulletType;
 import TemplateMethodAndIterator.EnemyRepository;
 import TemplateMethodAndIterator.IIterator;
 import io.reactivex.*;
@@ -50,7 +51,6 @@ import java.awt.event.*;
 public class main extends JFrame implements ActionListener, Action2<String, String>{
 
 	HashMap<String,JButton> buttonCache = new HashMap<String,JButton>();
-		
 	
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
@@ -58,20 +58,17 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	EnemyFactory EF = new EnemyFactory();
 	GameSingleton GS = GameSingleton.getInstance();
 	static File bulletFile = new File("src/Bullet.png");
-	
-	
-	
-	//static List<Enemy> enemies = new ArrayList<Enemy>();
 	static EnemyRepository enemies = new EnemyRepository();
-	
 	
 	static List<Bullet> bullets = new ArrayList<Bullet>();
 	static Renderer r; 
 	static Player1 player;
 	
+	public static HashMap<String, BulletType> bt = new HashMap<String, BulletType>();
+	
 	public static void main(String[] args) throws IOException{
-		
 		main GM = new main();
+		GM.HashMapSetup();
 		
 		GM.gui();
 		
@@ -89,6 +86,16 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 	}
 	
+	public void HashMapSetup() {
+		BulletType a = new BulletType(1, true);
+		BulletType b = new BulletType(2, true);
+		BulletType c = new BulletType(1, false);
+		BulletType d = new BulletType(2, false);
+		bt.put("lowFriendly", a);
+		bt.put("highFriendly", b);
+		bt.put("lowEnemy", c);
+		bt.put("highEnemy", d);
+	}
 	
 	public void constant() {
 		requestFocusInWindow();
@@ -181,8 +188,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	// COPY PASTE
 	public void gui() {
-
-		
 		setSize(windowWidth * 2, windowHeight *2 );
 		setTitle("BulletHell");
 		setLocationRelativeTo(null);
@@ -214,32 +219,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		buttonsPanel.add(buttonDown, BorderLayout.SOUTH);
 		buttonCache.put(buttonDown.getText(), buttonDown);
 	}
-
-	/*@Override
-	public void invoke(String name, String message) {
-		ReceiveMessage(name, message);
-	}*/
-	
-	/*public static void ReceiveMessage(String user, String message) {
-		String msg = user + ": " + message;
-		System.out.println(msg);
-	}*/
-    
-    /*public static void SendMessage(String user, String message) {
-        String url = "http://localhost:5000/gamehub";
-        
-
-        HubConnection hubConnection = HubConnectionBuilder.create(url).build();
-        hubConnection.start().blockingAwait();
-
-        String Id = hubConnection.getConnectionId();
-        
-        hubConnection.send("SendMessage", user, message);
-        String msg = "SND: " + user + ": " + message;
-        
-        hubConnection.stop();
-        
-    }*/
 	
 	public static int getRandomX(){
 		return (int)(Math.random()*(windowWidth-100));
@@ -280,30 +259,6 @@ class Renderer implements Runnable {
 			main.drawingPanel.requestFocus();
 			main.drawingPanel.paint(g);
 			
-				/*List<Enemy> e = main.enemies;
-				
-				
-				for(int i = 0; i < e.size(); i++) {
-					
-					Enemy E = e.get(i);
-					BufferedImage image = ImageIO.read(E.getImage());
-			
-					g.drawImage(image, E.getX(), E.getY(), null);
-					
-					
-					
-					
-					for(int u = 0; u < E.getBullets().size(); u++) {
-						if(E.getBullets().get(u).timeAlive > 100) {
-							E.removeBullet(u);
-						}
-						else {
-						E.getBullets().get(u).Move();
-						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
-						}
-					}
-				}*/
-			
 				EnemyRepository e = main.enemies;
 			
 				for(IIterator iter = e.getIterator(); iter.hasNext();) {
@@ -311,9 +266,6 @@ class Renderer implements Runnable {
 					BufferedImage image = ImageIO.read(E.getImage());
 			
 					g.drawImage(image, E.getX(), E.getY(), null);
-					
-					
-					
 					
 					for(int u = 0; u < E.getBullets().size(); u++) {
 						if(E.getBullets().get(u).timeAlive > 100) {
@@ -325,7 +277,6 @@ class Renderer implements Runnable {
 						}
 					}
 				}
-			
 			
 				Image bff = main.player.getImage();	
 				

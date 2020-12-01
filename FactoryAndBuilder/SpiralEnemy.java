@@ -12,6 +12,7 @@ import Strategy.Burst;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
 import Strategy.Spiral;
+import edu.ktu.signalrclient.main;
 
 public class SpiralEnemy implements Enemy {
 
@@ -79,7 +80,7 @@ public class SpiralEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		double radians = c_degree*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		BulletType bt = new BulletType(6, false);
+		BulletType bt = main.bt.get("highEnemy");
 		Big_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
 		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);

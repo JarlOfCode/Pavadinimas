@@ -12,6 +12,7 @@ import FlyweightAndState.BulletType;
 import Strategy.Burst;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
+import edu.ktu.signalrclient.main;
 
 public class BurstEnemy implements Enemy {
 
@@ -78,7 +79,7 @@ public class BurstEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
 		int[] a = { 0, 0 };
-		BulletType bt = new BulletType(1, false);
+		BulletType bt = main.bt.get("lowEnemy");
 		Small_Fast_Bullet b = F.createFastBullet(getX()+35, getY()+35, a, bt) ;
 		System.out.println("BurstEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);

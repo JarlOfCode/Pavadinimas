@@ -13,6 +13,7 @@ import Strategy.Burst;
 import Strategy.ContinuedFire;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
+import edu.ktu.signalrclient.main;
 
 public class ContinuedEnemy implements Enemy {
 
@@ -96,7 +97,7 @@ public class ContinuedEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		// METODAS KURIS APSKAICIUOJA KULKOS KAMPA
 		int[] a = { 0, 0 };
-		BulletType bt = new BulletType(4, false);
+		BulletType bt = main.bt.get("lowEnemy");
 		Big_Fast_Bullet b = F.createFastBullet(getX()+65, getY()+65, a, bt) ;
 		System.out.println("ContinuedEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);

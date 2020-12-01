@@ -110,7 +110,7 @@ public class Player1 implements Player {
 	    	//System.out.println("Player shot a bullet");
 			double radians = 270*Math.PI/180.0;
 			int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-			BulletType bt = new BulletType(1, false);
+			BulletType bt = main.bt.get("highEnemy");
 
 			Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt) ;
 			Bullets.add(b);

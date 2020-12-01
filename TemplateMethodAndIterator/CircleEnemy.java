@@ -12,6 +12,7 @@ import FlyweightAndState.BulletType;
 import Strategy.CircularBurst;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
+import edu.ktu.signalrclient.main;
 
 public class CircleEnemy implements Enemy {
 	
@@ -80,7 +81,7 @@ public class CircleEnemy implements Enemy {
 	public void Shoot(int c_degree) {
 		double radians = c_degree*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		BulletType bt = new BulletType(4, false);
+		BulletType bt = main.bt.get("highEnemy");
 
 		Small_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
 		System.out.println("CircleEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
@@ -91,7 +92,7 @@ public class CircleEnemy implements Enemy {
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		int[] a = { 0, 0 };
-		BulletType bt = new BulletType(4, false);
+		BulletType bt = main.bt.get("highEnemy");
 
 		Small_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
