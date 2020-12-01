@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import AbstractFactoryAndPrototype.Big_Fast_Bullet;
 import AbstractFactoryAndPrototype.SmallBulletFactory;
 import AbstractFactoryAndPrototype.Small_Fast_Bullet;
+import CompositeAndMediator.Mediator;
 import DecoratorAndCommand.Player;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
@@ -30,13 +31,15 @@ public class Player1 implements Player {
 	private Image image;
 	private int Speed = 5;
 	private PlayerObserver o = new PlayerObserver();
-	private State state;
 	private boolean playing = false;
 	
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
 	
-	public Player1(){
+	private Mediator PlayerStateMediator;
+	
+	public Player1(Mediator PlayerStateMediator){
+		this.PlayerStateMediator = PlayerStateMediator;
 		loadImage();
 	}
 	
@@ -86,11 +89,11 @@ public class Player1 implements Player {
 	    }
 	    
 	    public void changeState(State state) {
-	    	this.state = state;
+	    	PlayerStateMediator.changeState(state);
 	    }
 	    
 	    public State getState() {
-	    	return this.state;
+	    	return PlayerStateMediator.getState();
 	    }
 	    
 	    public void setPlaying(boolean playing) {

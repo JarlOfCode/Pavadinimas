@@ -12,7 +12,7 @@ import edu.ktu.signalrclient.Player1;
 
 public class HealthPotionTest {
 
-	@Test
+	/*@Test
 	public void testHealthPotion() {
 		Item i = new Item();
 		HealthPotion b = new HealthPotion(i);
@@ -30,5 +30,5 @@ public class HealthPotionTest {
 		}
 		System.out.println("Gerai");
 	}
-
+*/
 }

@@ -11,7 +11,7 @@ import DecoratorAndCommand.Player;
 import edu.ktu.signalrclient.Player1;
 
 public class BootsTest {
-
+/*
 	@Test
 	public void testBoots() {
 		Item i = new Item();
@@ -28,5 +28,5 @@ public class BootsTest {
 			throw e;
 		}
 		System.out.println("Gerai");
-	}
+	}*/
 }

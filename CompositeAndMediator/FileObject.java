@@ -1,4 +1,4 @@
-package Composite;
+package CompositeAndMediator;
 
 public class FileObject extends FileSystemObject{
 

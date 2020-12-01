@@ -1,21 +1,24 @@
 package FlyweightAndState;
 
+import CompositeAndMediator.Mediator;
 import edu.ktu.signalrclient.Player1;
 
 public class PlayingState extends State {
 
-	PlayingState(Player1 player) {
-		super(player);
+	private Mediator PlayerStateMediator;
+	
+	public PlayingState(Mediator PlayerStateMediator) {
+		super(PlayerStateMediator);
 	}
 
 	@Override
 	public String onGetStats() {
-		return player.getStats();
+		return PlayerStateMediator.onGetStats();
 	}
 
 	@Override
 	public String onPlay() {
-		return "Already playing...";
+		return PlayerStateMediator.onPlay();
 	}
 
 }

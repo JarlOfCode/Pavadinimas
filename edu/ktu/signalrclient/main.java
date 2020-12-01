@@ -30,13 +30,17 @@ import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 
-import Composite.DirectoryObject;
-import Composite.FileObject;
-import Composite.FileSystemObject;
+import CompositeAndMediator.DirectoryObject;
+import CompositeAndMediator.FileObject;
+import CompositeAndMediator.FileSystemObject;
+import CompositeAndMediator.Mediator;
+import CompositeAndMediator.IdleMediator;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
+import FlyweightAndState.IdleState;
+import FlyweightAndState.State;
 import TemplateMethodAndIterator.EnemyRepository;
 import TemplateMethodAndIterator.IIterator;
 import io.reactivex.*;
@@ -60,6 +64,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	static int windowHeight = 500;
 	EnemyFactory EF = new EnemyFactory();
 	GameSingleton GS = GameSingleton.getInstance();
+	Mediator mediator = new IdleMediator();
 	
 	static EnemyRepository enemies = new EnemyRepository();
 	
@@ -68,6 +73,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	static Renderer r; 
 	static Player1 player;
+	static State state;
 	
 	public static HashMap<String, BulletType> bt = new HashMap<String, BulletType>();
 	
@@ -143,7 +149,10 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	
 	public void setup() throws IOException {
 		
-		player  = new Player1();
+		player  = new Player1(mediator);
+		State idleState = new IdleState(mediator);
+		player.changeState(idleState);
+		
 		KeyListener listener = new KeyListener(){
 			
 			@Override

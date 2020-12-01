@@ -1,22 +1,24 @@
 package FlyweightAndState;
 
+import CompositeAndMediator.Mediator;
 import edu.ktu.signalrclient.Player1;
 
 public class IdleState extends State {
 
-	IdleState(Player1 player) {
-		super(player);
+	private Mediator PlayerStateMediator;
+	
+	public IdleState(Mediator PlayerStateMediator) {
+		super(PlayerStateMediator);
 	}
 
 	@Override
 	public String onGetStats() {
-		return "Not currently playing...";
+		return PlayerStateMediator.onGetStats();
 	}
 
 	@Override
 	public String onPlay() {
-		player.changeState(new PlayingState(player));
-		return "Entering Play Mode...";
+		return PlayerStateMediator.onPlay();
 	}
 
 }

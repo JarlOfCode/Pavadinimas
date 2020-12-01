@@ -1,12 +1,14 @@
 package FlyweightAndState;
 
+import CompositeAndMediator.Mediator;
 import edu.ktu.signalrclient.Player1;
 
 public abstract class State {
-	Player1 player;
 	
-	State(Player1 player){
-		this.player = player;
+	private Mediator PlayerStateMediator;
+	
+	State(Mediator PlayerStateMediator) {
+		this.PlayerStateMediator = PlayerStateMediator;
 	}
 	
 	public abstract String onGetStats();

@@ -14,8 +14,7 @@ import edu.ktu.signalrclient.Player1;
 
 public class CommandInvokerTest {
 
-	@Test
-	public void testExecutePickups() {
+	/*public void testExecutePickups() {
 		CommandInvoker ci = new CommandInvoker();
 		Player p = new Player1();
 		Item i = new Item();
@@ -40,6 +39,6 @@ public class CommandInvokerTest {
 			throw e;
 		}
 		System.out.println("Gerai");
-	}
+	}*/
 
 }
