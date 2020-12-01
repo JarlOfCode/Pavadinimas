@@ -19,10 +19,7 @@ public class ContinuedEnemy implements Enemy {
 
 	double speed = 5;
 	
-	
-	//super.imageFile = new File("/src/enemy_1.png");
-	
-	File imageFile = new File("src/Enemy_Small_2.png");
+	File imageFile = main.imageFiles.get(5);
 	int xPos = 0;
 	int yPos = 0;
 	public int HP = 4;

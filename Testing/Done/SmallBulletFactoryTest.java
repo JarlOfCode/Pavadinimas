@@ -13,7 +13,7 @@ public class SmallBulletFactoryTest {
 	public void testCreateSlowBulletBooleanIntIntDoubleArray() {
 		SmallBulletFactory sbf = new SmallBulletFactory();
 		int[] i = { 0, 0 };
-		sbf.createSlowBullet(true, 0, 0, i);
+		//sbf.createSlowBullet(true, 0, 0, i);
 		return;
 	}
 
@@ -21,7 +21,7 @@ public class SmallBulletFactoryTest {
 	public void testCreateFastBulletBooleanIntIntDoubleArray() {
 		SmallBulletFactory sbf = new SmallBulletFactory();
 		int[] i = { 0, 0 };
-		sbf.createFastBullet(true, 0, 0, i);
+		//sbf.createFastBullet(true, 0, 0, i);
 		return;
 	}
 

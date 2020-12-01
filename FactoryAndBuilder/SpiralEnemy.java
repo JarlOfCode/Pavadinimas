@@ -16,7 +16,7 @@ import edu.ktu.signalrclient.main;
 
 public class SpiralEnemy implements Enemy {
 
-	File imageFile = new File("src/Enemy_Big_2.png");
+	File imageFile = main.imageFiles.get(3);
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;

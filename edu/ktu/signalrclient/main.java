@@ -30,6 +30,9 @@ import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
 import com.microsoft.signalr.HubConnectionState;
 
+import Composite.DirectoryObject;
+import Composite.FileObject;
+import Composite.FileSystemObject;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import FlyweightAndState.Bullet;
@@ -57,10 +60,12 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	static int windowHeight = 500;
 	EnemyFactory EF = new EnemyFactory();
 	GameSingleton GS = GameSingleton.getInstance();
-	static File bulletFile = new File("src/Bullet.png");
+	
 	static EnemyRepository enemies = new EnemyRepository();
 	
 	static List<Bullet> bullets = new ArrayList<Bullet>();
+	public static List<File> imageFiles = new ArrayList<File>();
+	
 	static Renderer r; 
 	static Player1 player;
 	
@@ -69,6 +74,9 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public static void main(String[] args) throws IOException{
 		main GM = new main();
 		GM.HashMapSetup();
+		GM.CompositeSetup();
+		
+		
 		
 		GM.gui();
 		
@@ -81,9 +89,37 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		player.startConstantObserve();
 		
 		while(true) {
-		GM.constant();
+			GM.constant();
 		}
+	}
+	
+	public void CompositeSetup() {
+		FileSystemObject root = new DirectoryObject("pictures");
+		FileSystemObject bullet = new FileObject("Bullet.png");
+		FileSystemObject player = new FileObject("Player1.png");
+		root.add(bullet);
+		root.add(player);
 		
+		FileSystemObject enemies = new DirectoryObject("enemies");
+		root.add(enemies);
+		
+		FileSystemObject small = new DirectoryObject("small");
+		FileSystemObject big = new DirectoryObject("big");
+		
+		FileSystemObject enemy_1 = new FileObject("Enemy_Big_1.png");
+		FileSystemObject enemy_2 = new FileObject("Enemy_Big_2.png");
+		FileSystemObject enemy_3 = new FileObject("Enemy_Small_1.png");
+		FileSystemObject enemy_4 = new FileObject("Enemy_Small_2.png");
+		enemies.add(enemy_1);
+		enemies.add(enemy_2);
+		enemies.add(enemy_3);
+		enemies.add(enemy_4);
+		
+		root.getTree();
+		
+		for(int i = 0; i < imageFiles.size(); i++) {
+			System.out.println(imageFiles.get(i));
+		}
 	}
 	
 	public void HashMapSetup() {
@@ -247,7 +283,7 @@ class Renderer implements Runnable {
 	public void run() {
 		BufferedImage bulletImage = null;
 		try {
-			bulletImage = ImageIO.read(main.bulletFile);
+			bulletImage = ImageIO.read(main.imageFiles.get(0));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

@@ -24,7 +24,7 @@ public class Player1 implements Player {
 	private int Pos_X = 10;
 	private int Pos_Y = 15;
 	private int i_width;
-	private int i_heigt;
+	private int i_height;
 	private int HP = 3;
 	private int MaxHP = 3;
 	private Image image;
@@ -42,11 +42,11 @@ public class Player1 implements Player {
 	
 	 private void loadImage() {
 	        
-	        ImageIcon ii = new ImageIcon("src/Player1.png");
+	        ImageIcon ii = new ImageIcon(main.imageFiles.get(1).toString());
 	        image = ii.getImage(); 
 	        
 	        i_width = image.getWidth(null);
-	        i_heigt = image.getHeight(null);
+	        i_height = image.getHeight(null);
 	    }
 
 	    public void move(int x, int y) throws IOException {
@@ -77,7 +77,7 @@ public class Player1 implements Player {
 	    
 	    public int getHeight() {
 	        
-	        return i_heigt;
+	        return i_height;
 	    }    
 
 	    public Image getImage() {

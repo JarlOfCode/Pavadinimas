@@ -16,7 +16,7 @@ import edu.ktu.signalrclient.main;
 
 public class BurstEnemy implements Enemy {
 
-	File imageFile = new File("src/Enemy_Small_1.png");
+	File imageFile = main.imageFiles.get(4);
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
