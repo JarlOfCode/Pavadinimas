@@ -12,7 +12,7 @@ public class IdleState extends State {
 	}
 
 	@Override
-	public String onGetStats() {
+	public String onGetStats() throws InterruptedException {
 		return PlayerStateMediator.onGetStats();
 	}
 

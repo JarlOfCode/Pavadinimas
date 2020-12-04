@@ -28,10 +28,18 @@ public class GameSingleton {
 	}
 	
 	public int getTime() {
-		return LocalTime.now().toSecondOfDay() - start_time;
+		return (LocalTime.now().toSecondOfDay() - start_time);
+	}
+	
+	public void setScore(int i) {
+		score = i;
 	}
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public void addScore(int score) {
+		this.score += score;
 	}
 }

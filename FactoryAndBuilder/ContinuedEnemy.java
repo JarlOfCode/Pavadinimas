@@ -27,6 +27,7 @@ public class ContinuedEnemy implements Enemy {
 	int xPos = 0;
 	int yPos = 0;
 	public int HP = 4;
+	int Value = 2;
 	Patterns pattern = new ContinuedFire();
 	boolean isDead = false;
 	
@@ -92,6 +93,7 @@ public class ContinuedEnemy implements Enemy {
 			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
 			ek.start();*/
 			main.enemies.removeEnemy(index);
+			main.GS.addScore(Value);
 		}
 		
 	}
@@ -108,7 +110,7 @@ public class ContinuedEnemy implements Enemy {
 		int[] a = { 0, 0 };
 		BulletType bt = main.bt.get("lowEnemy");
 		Big_Fast_Bullet b = F.createFastBullet(getX()+65, getY()+65, a, bt, 2) ;
-		System.out.println("ContinuedEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
+		//System.out.println("ContinuedEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
 
@@ -119,9 +121,9 @@ public class ContinuedEnemy implements Enemy {
     	int ran = random.nextInt(360) + 1;
 		double radians = ran*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		BulletType bt = new BulletType(6, false);
+		BulletType bt = main.bt.get("lowEnemy");
 		Big_Fast_Bullet b = F.createFastBullet(getX()+35, getY()+35, bulletVelocity, bt, 2) ;
-		System.out.println("Continued shot random " + b.getClass());
+		//System.out.println("Continued shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}

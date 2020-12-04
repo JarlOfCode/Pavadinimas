@@ -3,6 +3,7 @@ package edu.ktu.signalrclient;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -34,7 +35,7 @@ import CompositeAndMediator.DirectoryObject;
 import CompositeAndMediator.FileObject;
 import CompositeAndMediator.FileSystemObject;
 import CompositeAndMediator.Mediator;
-import CompositeAndMediator.IdleMediator;
+import CompositeAndMediator.PlayerMediator;
 import FactoryAndBuilder.Enemy;
 import FactoryAndBuilder.EnemyFactory;
 import FlyweightAndState.Bullet;
@@ -63,19 +64,23 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	static JPanel drawingPanel = new JPanel();
 	static int windowWidth = 700;
 	static int windowHeight = 500;
-	EnemyFactory EF = new EnemyFactory();
-	GameSingleton GS = GameSingleton.getInstance();
-	Mediator mediator = new IdleMediator();
+	static EnemyFactory EF = new EnemyFactory();
+	public static GameSingleton GS = GameSingleton.getInstance();
+	public static Mediator mediator = new PlayerMediator();
 	static FileSystemObject root = new DirectoryObject("pictures");
 	
 	public static EnemyRepository enemies = new EnemyRepository();
 	
 	static List<Bullet> bullets = new ArrayList<Bullet>();
-	
+	public static boolean isPlaying = false;
 	
 	static Renderer r; 
-	static Player1 player;
+	static Spawner sp;
+	public static Player1 player;
 	static State state;
+	public static String lastSavedTime = "0";
+	public static String currentSavedTime = "0";
+	public static Graphics g;
 	
 	public static HashMap<String, BulletType> bt = new HashMap<String, BulletType>();
 	
@@ -83,9 +88,7 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		main GM = new main();
 		GM.HashMapSetup();
 		GM.CompositeSetup();
-		
-		
-		
+
 		GM.gui();
 		
 		GM.setVisible(true);
@@ -93,6 +96,9 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 		r = new Renderer();
 		r.start();
+		
+		sp = new Spawner();
+		sp.start();
 		
 		player.startConstantObserve();
 		
@@ -136,6 +142,12 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		}
 	}
 	
+	public static void Start() {
+		State state = new PlayingState(player.PlayerStateMediator);
+		player.changeState(state);
+		GS.Start();
+	}
+	
 	public void HashMapSetup() {
 		BulletType a = new BulletType(1, true);
 		BulletType b = new BulletType(2, true);
@@ -158,8 +170,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public void setup() throws IOException {
 		
 		player  = new Player1(mediator);
-		State playingState = new PlayingState(mediator);
-		player.changeState(playingState);
+		State state = new IdleState(player.PlayerStateMediator);
+		player.changeState(state);
 		
 		KeyListener listener = new KeyListener(){
 			
@@ -198,41 +210,16 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	    String command = ((JButton) e.getSource()).getActionCommand();
 	    JButton button = buttonCache.get(command);
 	    if(button.getText() == "Spawn Random Enemy") {
-	    	//SendMessage("JavaClient", command);
-	    	Random random = new Random();
-	    	int ran = random.nextInt(5 - 1) + 1;
-	    	Enemy test = null;
-	    	if(ran == 1) {
-	    		test = EF.getEnemy("circle");
-	    	}
-	    	else if(ran == 2) {
-	    		test = EF.getEnemy("spiral");
-	    	}
-	    	else if(ran == 3) {
-	    		test = EF.getEnemy("continued");
-	    	}
-	    	else if(ran == 4) {
-	    		test = EF.getEnemy("burst");
-	    	}
 	    	
-			try {
-				test.Spawn();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				spawnEnemy(test);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 	    }
-	    else if(button.getText() == "Observer") {
-	    	//SendMessage("JavaClient", command);
-	    	
+	    else if(button.getText() == "Start") {
+	    	if(!isPlaying) {
+	    		player.Play();
+	    	}
 	    }
 	}
 	
-	public  void spawnEnemy(Enemy e) throws IOException{	
+	public static  void spawnEnemy(Enemy e) throws IOException{	
 		e.setX(getRandomX());
 		e.setY(getRandomY());
 		enemies.addEnemy(e);
@@ -267,17 +254,17 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		buttonsPanel.add(button, BorderLayout.CENTER);
 		buttonCache.put(button.getText(), button);
 		
-		JButton buttonDown = new JButton("Observer");
+		JButton buttonDown = new JButton("Start");
 		buttonDown.addActionListener(this);
 		buttonsPanel.add(buttonDown, BorderLayout.SOUTH);
 		buttonCache.put(buttonDown.getText(), buttonDown);
 	}
 	
 	public static int getRandomX(){
-		return (int)(Math.random()*(windowWidth-100));
+		return (int)(Math.random()*(windowWidth*1.8-100));
 	}
 	public static int getRandomY(){
-		return (int)(Math.random()*(windowHeight-100));
+		return (int)(Math.random()*(windowHeight*1.8-300));
 	}
 	
 	public static List<File> getImageFiles(){
@@ -290,6 +277,70 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		// TODO Auto-generated method stub
 		
 	}
+}
+
+class Spawner implements Runnable {
+	private Thread t;
+	private String threadName;
+	
+	Spawner(){
+		threadName = "spawner";
+	}
+	
+	public void run() {
+		while(true) {
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			if(main.isPlaying) {
+				
+				Random random = new Random();
+		    	int ran = random.nextInt(5 - 1) + 1;
+		    	Enemy test = null;
+		    	if(ran == 1) {
+		    		test = main.EF.getEnemy("circle");
+		    	}
+		    	else if(ran == 2) {
+		    		test = main.EF.getEnemy("spiral");
+		    	}
+		    	else if(ran == 3) {
+		    		test = main.EF.getEnemy("continued");
+		    	}
+		    	else if(ran == 4) {
+		    		test = main.EF.getEnemy("burst");
+		    	}
+		    	
+				try {
+					test.Spawn();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					main.spawnEnemy(test);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
+					Thread.sleep(4000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				};
+			}
+		}
+	}
+	
+	
+	public void start () {
+	      if (t == null) {
+	         t = new Thread (this, threadName);
+	         t.start ();
+	      }
+	  }
 }
 
 class Renderer implements Runnable {
@@ -311,10 +362,22 @@ class Renderer implements Runnable {
 		}
 		try {
 	         
-			Graphics g = main.drawingPanel.getGraphics();
+			main.g = main.drawingPanel.getGraphics();
 			main.drawingPanel.setFocusable(true);
 			main.drawingPanel.requestFocus();
-			main.drawingPanel.paint(g);
+			main.drawingPanel.paint(main.g);
+			
+			main.player.getStats();
+			
+			if(!main.isPlaying) {
+				for(int i = 0; i < main.enemies.e.size(); i++) {
+					
+					main.enemies.e.remove(i);
+					
+				}
+				main.currentSavedTime = main.lastSavedTime;
+			}
+			
 			
 				EnemyRepository e = main.enemies;
 			
@@ -323,7 +386,7 @@ class Renderer implements Runnable {
 					BufferedImage image = ImageIO.read(E.getImage());
 					
 					if(!E.isDead) {
-						g.drawImage(image, E.getX(), E.getY(), null);
+						main.g.drawImage(image, E.getX(), E.getY(), null);
 					}
 					
 					for(int u = 0; u < E.getBullets().size(); u++) {
@@ -347,7 +410,7 @@ class Renderer implements Runnable {
 						
 						bulletImage = E.getBulletImage();
 						
-						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
+						main.g.drawImage(bulletImage, b.getX(), b.getY(), null);
 						}
 					}
 				}
@@ -366,17 +429,19 @@ class Renderer implements Runnable {
 						int distSq = 1, radSumSq = 0;
 						
 						if(E != null && main.player.getBullets() != null) {
-							Enemy en = E;
-							distSq = ((main.player.getBullets().get(i).getX() + 5 - (en.getX()+en.getSize())) * 
-									(main.player.getBullets().get(i).getX() + 5 - 
-											(en.getX()+en.getSize()))) +
-								((main.player.getBullets().get(i).getY() + 5 - 
-										(en.getY()+en.getSize())) * 
-										(main.player.getBullets().get(i).getY() + 5 - 
-												(en.getY()+en.getSize())));
-						
-							radSumSq = (10 + en.getSize()) * (10 + en.getSize());
-						
+							if(main.player.getBullets().size() > i) {
+								Bullet bul = main.player.getBullets().get(i);
+								Enemy en = E;
+								distSq = ((bul.getX() + 5 - (en.getX()+en.getSize())) * 
+										(bul.getX() + 5 - 
+												(en.getX()+en.getSize()))) +
+									((bul.getY() + 5 - 
+											(en.getY()+en.getSize())) * 
+											(bul.getY() + 5 - 
+													(en.getY()+en.getSize())));
+							
+								radSumSq = (10 + en.getSize()) * (10 + en.getSize());
+							}
 						}
 						
 						if(distSq <= radSumSq) {
@@ -387,13 +452,13 @@ class Renderer implements Runnable {
 						o++;
 					}
 					if(test == false) {
-						g.drawImage(playerBulletImage, main.player.getBullets().get(i).getX(), main.player.getBullets().get(i).getY(), null);
+						main.g.drawImage(playerBulletImage, main.player.getBullets().get(i).getX(), main.player.getBullets().get(i).getY(), null);
 					}
 				}
 				
 				int x = main.player.getX();
 				int y = main.player.getY();
-				g.drawImage(bff, x, y, null);
+				main.g.drawImage(bff, x, y, null);
 				
 				try {
 					Thread.sleep(0);
@@ -407,7 +472,10 @@ class Renderer implements Runnable {
 					e1.printStackTrace();
 				}
 	      } catch (IOException e) {
-	      }
+	      } catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 	}
 	
@@ -418,6 +486,7 @@ class Renderer implements Runnable {
 	public void paint(Graphics g){
 		bf = new BufferedImage( main.drawingPanel.getWidth(), main.drawingPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
 		g.drawImage(bf,0,0,null);
+		
 	}
 	
 	public void start () {

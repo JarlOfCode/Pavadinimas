@@ -14,11 +14,13 @@ import AbstractFactoryAndPrototype.SmallBulletFactory;
 import AbstractFactoryAndPrototype.Small_Fast_Bullet;
 import CompositeAndMediator.Mediator;
 import DecoratorAndCommand.Player;
+import FactoryAndBuilder.Enemy;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
 import FlyweightAndState.IdleState;
 import FlyweightAndState.State;
 import Observer.PlayerObserver;
+import TemplateMethodAndIterator.IIterator;
 
 public class Player1 implements Player {
 	private int dx;
@@ -37,7 +39,7 @@ public class Player1 implements Player {
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
 	
-	private Mediator PlayerStateMediator;
+	public Mediator PlayerStateMediator;
 	
 	public Player1(Mediator PlayerStateMediator){
 		this.PlayerStateMediator = PlayerStateMediator;
@@ -105,7 +107,7 @@ public class Player1 implements Player {
 	    	return playing;
 	    }
 	    
-	    public String getStats() {
+	    public String getStats() throws InterruptedException {
 			return PlayerStateMediator.onGetStats();
 	    	// mock for observer
 	    }
@@ -207,14 +209,25 @@ public class Player1 implements Player {
 			return this.Bullets;
 		}
 		
+		public void Play() {
+			PlayerStateMediator.onPlay();
+		}
+		
 		public void isHit(Bullet b) {
 			HP -= b.getDamage();
 			System.out.println("GOT HIT");
 			if(HP <= 0) {
+				main.isPlaying = false;
+				main.currentSavedTime = "0";
 				State idleState = new IdleState(PlayerStateMediator);
-				System.out.println(getStats());
-				PlayerStateMediator.changeState(idleState);
-				System.out.println(getStats());
+				changeState(idleState);
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				HP = 6;
 			}
 		}
 }

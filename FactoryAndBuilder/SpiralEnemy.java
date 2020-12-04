@@ -24,6 +24,7 @@ public class SpiralEnemy implements Enemy {
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
+	int Value = 2;
 	Patterns pattern = new Spiral();
 	boolean isDead =false;
 	
@@ -78,6 +79,7 @@ public class SpiralEnemy implements Enemy {
 			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
 			ek.start();*/
 			main.enemies.removeEnemy(index);
+			main.GS.addScore(Value);
 		}
 		
 	}
@@ -94,7 +96,7 @@ public class SpiralEnemy implements Enemy {
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 		BulletType bt = main.bt.get("highEnemy");
 		Big_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt, 1) ;
-		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
+		//System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
 
@@ -102,9 +104,9 @@ public class SpiralEnemy implements Enemy {
 	public void Shoot() {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		int[] a = { 0, 0 };
-		BulletType bt = new BulletType(6, false);
+		BulletType bt = main.bt.get("highEnemy");
 		Big_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt, 1) ;
-		System.out.println("SpiralEnemy shot random " + b.getClass());
+		//System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}

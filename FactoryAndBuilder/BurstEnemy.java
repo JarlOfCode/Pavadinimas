@@ -26,6 +26,7 @@ public class BurstEnemy implements Enemy {
 	int HP = 4;
 	Patterns pattern = new Burst();
 	boolean isDead = false;
+	int Value = 3;
 	
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
@@ -77,6 +78,7 @@ public class BurstEnemy implements Enemy {
 			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
 			ek.start();*/
 			main.enemies.removeEnemy(index);
+			main.GS.addScore(Value);
 		}
 		
 	}
@@ -92,7 +94,7 @@ public class BurstEnemy implements Enemy {
 		int[] a = { 0, 0 };
 		BulletType bt = main.bt.get("lowEnemy");
 		Small_Fast_Bullet b = F.createFastBullet(getX()+35, getY()+35, a, bt, 2) ;
-		System.out.println("BurstEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
+		//System.out.println("BurstEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
 
@@ -103,9 +105,9 @@ public class BurstEnemy implements Enemy {
     	int ran = random.nextInt(360) + 1;
 		double radians = ran*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-		BulletType bt = new BulletType(1, false);
+		BulletType bt = main.bt.get("lowEnemy");
 		Small_Fast_Bullet b = F.createFastBullet(getX()+35, getY()+35, bulletVelocity, bt, 2) ;
-		System.out.println("BurstEnemy shot random " + b.getClass());
+		//System.out.println("BurstEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}

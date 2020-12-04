@@ -80,6 +80,7 @@ public class CircleEnemy implements Enemy {
 			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
 			ek.start();*/
 			main.enemies.removeEnemy(index);
+			main.GS.addScore(Value);
 		}
 		
 	}
@@ -97,7 +98,7 @@ public class CircleEnemy implements Enemy {
 		BulletType bt = main.bt.get("highEnemy");
 
 		Small_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt, 1) ;
-		System.out.println("CircleEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
+		//System.out.println("CircleEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
 
@@ -108,7 +109,7 @@ public class CircleEnemy implements Enemy {
 		BulletType bt = main.bt.get("highEnemy");
 
 		Small_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt, 1) ;
-		System.out.println("SpiralEnemy shot random " + b.getClass());
+		//System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
 	}

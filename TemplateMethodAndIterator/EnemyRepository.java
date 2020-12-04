@@ -24,7 +24,7 @@ public class EnemyRepository implements Container {
 	
 	private class EnemyIterator implements IIterator{
 
-		int index;
+		int index = 0;
 		
 		@Override
 		public boolean hasNext() {

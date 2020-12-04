@@ -11,6 +11,6 @@ public abstract class State {
 		this.PlayerStateMediator = PlayerStateMediator;
 	}
 	
-	public abstract String onGetStats();
+	public abstract String onGetStats() throws InterruptedException;
 	public abstract String onPlay();
 }
