@@ -15,11 +15,9 @@ public class ShootLooper implements Runnable{
 	
 	public void run() {
 		try {
-			int i = 0;
-			while(i <3) {
+			while(!e.isDead) {
 				e.executePattern();
 				Thread.sleep(5000);
-				i++;
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

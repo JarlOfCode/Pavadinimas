@@ -16,6 +16,7 @@ import CompositeAndMediator.Mediator;
 import DecoratorAndCommand.Player;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
+import FlyweightAndState.IdleState;
 import FlyweightAndState.State;
 import Observer.PlayerObserver;
 
@@ -26,10 +27,10 @@ public class Player1 implements Player {
 	private int Pos_Y = 15;
 	private int i_width;
 	private int i_height;
-	private int HP = 3;
+	private int HP = 6;
 	private int MaxHP = 3;
 	private Image image;
-	private int Speed = 5;
+	private int Speed = 10;
 	private PlayerObserver o = new PlayerObserver();
 	private boolean playing = false;
 	
@@ -45,7 +46,7 @@ public class Player1 implements Player {
 	
 	 private void loadImage() {
 	        
-	        ImageIcon ii = new ImageIcon(main.imageFiles.get(1).toString());
+	        ImageIcon ii = new ImageIcon(main.getImageFiles().get(1).toString());
 	        image = ii.getImage(); 
 	        
 	        i_width = image.getWidth(null);
@@ -56,7 +57,7 @@ public class Player1 implements Player {
 	        
 	    	Pos_X += x;
 	        Pos_Y += y;
-	        notifyObserver();
+	        //notifyObserver();
 	    }
 	    
 	    public void startConstantObserve() {
@@ -105,7 +106,7 @@ public class Player1 implements Player {
 	    }
 	    
 	    public String getStats() {
-			return "Mock stats";
+			return PlayerStateMediator.onGetStats();
 	    	// mock for observer
 	    }
 	    
@@ -115,7 +116,7 @@ public class Player1 implements Player {
 			int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 			BulletType bt = main.bt.get("highEnemy");
 
-			Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt) ;
+			Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt, 2) ;
 			Bullets.add(b);
 	    }
 
@@ -204,5 +205,16 @@ public class Player1 implements Player {
 		
 		public List<Bullet> getBullets(){
 			return this.Bullets;
+		}
+		
+		public void isHit(Bullet b) {
+			HP -= b.getDamage();
+			System.out.println("GOT HIT");
+			if(HP <= 0) {
+				State idleState = new IdleState(PlayerStateMediator);
+				System.out.println(getStats());
+				PlayerStateMediator.changeState(idleState);
+				System.out.println(getStats());
+			}
 		}
 }

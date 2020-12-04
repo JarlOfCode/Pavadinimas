@@ -40,6 +40,7 @@ import FactoryAndBuilder.EnemyFactory;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
 import FlyweightAndState.IdleState;
+import FlyweightAndState.PlayingState;
 import FlyweightAndState.State;
 import TemplateMethodAndIterator.EnemyRepository;
 import TemplateMethodAndIterator.IIterator;
@@ -65,11 +66,12 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	EnemyFactory EF = new EnemyFactory();
 	GameSingleton GS = GameSingleton.getInstance();
 	Mediator mediator = new IdleMediator();
+	static FileSystemObject root = new DirectoryObject("pictures");
 	
-	static EnemyRepository enemies = new EnemyRepository();
+	public static EnemyRepository enemies = new EnemyRepository();
 	
 	static List<Bullet> bullets = new ArrayList<Bullet>();
-	public static List<File> imageFiles = new ArrayList<File>();
+	
 	
 	static Renderer r; 
 	static Player1 player;
@@ -100,7 +102,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	}
 	
 	public void CompositeSetup() {
-		FileSystemObject root = new DirectoryObject("pictures");
 		FileSystemObject bullet = new FileObject("Bullet.png");
 		FileSystemObject player = new FileObject("Player1.png");
 		root.add(bullet);
@@ -108,9 +109,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		
 		FileSystemObject enemies = new DirectoryObject("enemies");
 		root.add(enemies);
-		
-		FileSystemObject small = new DirectoryObject("small");
-		FileSystemObject big = new DirectoryObject("big");
 		
 		FileSystemObject enemy_1 = new FileObject("Enemy_Big_1.png");
 		FileSystemObject enemy_2 = new FileObject("Enemy_Big_2.png");
@@ -121,10 +119,20 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		enemies.add(enemy_3);
 		enemies.add(enemy_4);
 		
+		FileSystemObject big_bullet = new FileObject("Big_Bullet.png");
+		FileSystemObject small_bullet_damage = new FileObject("Small_Bullet_Damage.png");
+		FileSystemObject big_bullet_damage = new FileObject("Big_Bullet_Damage.png");
+		FileSystemObject player_bullet = new FileObject("Player_Bullet.png");
+		
+		root.add(big_bullet);
+		root.add(small_bullet_damage);
+		root.add(big_bullet_damage);
+		root.add(player_bullet);
+		
 		root.getTree();
 		
-		for(int i = 0; i < imageFiles.size(); i++) {
-			System.out.println(imageFiles.get(i));
+		for(int i = 0; i < root.getImageFiles().size(); i++) {
+			System.out.println(root.getImageFiles().get(i));
 		}
 	}
 	
@@ -150,8 +158,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public void setup() throws IOException {
 		
 		player  = new Player1(mediator);
-		State idleState = new IdleState(mediator);
-		player.changeState(idleState);
+		State playingState = new PlayingState(mediator);
+		player.changeState(playingState);
 		
 		KeyListener listener = new KeyListener(){
 			
@@ -271,6 +279,10 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	public static int getRandomY(){
 		return (int)(Math.random()*(windowHeight-100));
 	}
+	
+	public static List<File> getImageFiles(){
+		return root.getImageFiles();
+	}
 
 
 	@Override
@@ -292,7 +304,7 @@ class Renderer implements Runnable {
 	public void run() {
 		BufferedImage bulletImage = null;
 		try {
-			bulletImage = ImageIO.read(main.imageFiles.get(0));
+			bulletImage = ImageIO.read(main.getImageFiles().get(0));
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -309,25 +321,74 @@ class Renderer implements Runnable {
 				for(IIterator iter = e.getIterator(); iter.hasNext();) {
 					Enemy E = (Enemy) iter.next();
 					BufferedImage image = ImageIO.read(E.getImage());
-			
-					g.drawImage(image, E.getX(), E.getY(), null);
+					
+					if(!E.isDead) {
+						g.drawImage(image, E.getX(), E.getY(), null);
+					}
 					
 					for(int u = 0; u < E.getBullets().size(); u++) {
+						
 						if(E.getBullets().get(u).timeAlive > 100) {
 							E.removeBullet(u);
 						}
 						else {
 						E.getBullets().get(u).Move();
+						Bullet b = E.getBullets().get(u);
+						Enemy en = E;
+						int distSq = ((b.getX() + en.getBulletSize() - main.player.getX() - 25) * (b.getX() + en.getBulletSize()  - main.player.getX() - 25)) +
+								((b.getY() + en.getBulletSize()  - main.player.getY() - 25) * (b.getY() + en.getBulletSize() - main.player.getY() - 25));
+					
+						int radSumSq = (10 + 25) * (10 + 25);
+						
+						if(distSq <= radSumSq) {
+							main.player.isHit(b);
+							E.getBullets().remove(u);
+						}
+						
+						bulletImage = E.getBulletImage();
+						
 						g.drawImage(bulletImage, E.getBullets().get(u).getX(), E.getBullets().get(u).getY(), null);
 						}
 					}
 				}
 			
 				Image bff = main.player.getImage();	
+				Image playerBulletImage = ImageIO.read(main.getImageFiles().get(9));
+				
 				
 				for(int i = 0; i < main.player.getBullets().size(); i++) {
 					main.player.getBullets().get(i).Move();
-					g.drawImage(bulletImage, main.player.getBullets().get(i).getX(), main.player.getBullets().get(i).getY(), null);
+					int o = 0;
+					boolean test = false;
+					for(IIterator iter = e.getIterator(); iter.hasNext();) {
+						Enemy E = (Enemy) iter.next();
+						
+						int distSq = 1, radSumSq = 0;
+						
+						if(E != null && main.player.getBullets() != null) {
+							Enemy en = E;
+							distSq = ((main.player.getBullets().get(i).getX() + 5 - (en.getX()+en.getSize())) * 
+									(main.player.getBullets().get(i).getX() + 5 - 
+											(en.getX()+en.getSize()))) +
+								((main.player.getBullets().get(i).getY() + 5 - 
+										(en.getY()+en.getSize())) * 
+										(main.player.getBullets().get(i).getY() + 5 - 
+												(en.getY()+en.getSize())));
+						
+							radSumSq = (10 + en.getSize()) * (10 + en.getSize());
+						
+						}
+						
+						if(distSq <= radSumSq) {
+							E.isHit(o);
+							main.player.getBullets().remove(i);
+							test = true;
+						}
+						o++;
+					}
+					if(test == false) {
+						g.drawImage(playerBulletImage, main.player.getBullets().get(i).getX(), main.player.getBullets().get(i).getY(), null);
+					}
 				}
 				
 				int x = main.player.getX();
@@ -340,14 +401,12 @@ class Renderer implements Runnable {
 					e1.printStackTrace();
 				}
 				
-				Thread.sleep(16);
-				
 				try {
 					Thread.sleep(0);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-	      } catch (IOException | InterruptedException e) {
+	      } catch (IOException e) {
 	      }
 		
 	}

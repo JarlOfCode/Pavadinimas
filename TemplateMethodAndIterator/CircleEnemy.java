@@ -1,12 +1,17 @@
 package TemplateMethodAndIterator;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+
 import AbstractFactoryAndPrototype.SmallBulletFactory;
 import AbstractFactoryAndPrototype.Small_Slow_Bullet;
 import FactoryAndBuilder.Enemy;
+import FactoryAndBuilder.EnemyKiller;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
 import Strategy.CircularBurst;
@@ -16,12 +21,13 @@ import edu.ktu.signalrclient.main;
 
 public class CircleEnemy implements Enemy {
 	
-	File imageFile = main.imageFiles.get(2);
+	File imageFile = main.getImageFiles().get(2);
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
 	int Value = 1;
 	Patterns pattern = new CircularBurst();
+	boolean isDead = false;
 	
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
@@ -66,11 +72,18 @@ public class CircleEnemy implements Enemy {
 	
 	
 	@Override
-	public void isHit(Bullet bullet) {
-		if(bullet.getFriendly() == false) {
-			this.HP -= 1;
+	public void isHit(int index) {
+		this.HP -= 1;
+		
+		if(this.HP == 0) {
+			this.isDead = true;
+			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
+			ek.start();*/
+			main.enemies.removeEnemy(index);
 		}
+		
 	}
+
 
 	@Override
 	public void executePattern() throws InterruptedException {
@@ -83,7 +96,7 @@ public class CircleEnemy implements Enemy {
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 		BulletType bt = main.bt.get("highEnemy");
 
-		Small_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
+		Small_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt, 1) ;
 		System.out.println("CircleEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
@@ -94,7 +107,7 @@ public class CircleEnemy implements Enemy {
 		int[] a = { 0, 0 };
 		BulletType bt = main.bt.get("highEnemy");
 
-		Small_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt) ;
+		Small_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt, 1) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
@@ -128,5 +141,20 @@ public class CircleEnemy implements Enemy {
 	
 	public int getHP() {
 		return this.HP;
+	}
+	
+	@Override
+	public int getSize() {
+		return 65;
+	}
+
+	@Override
+	public int getBulletSize() {
+		return 10;
+	}
+	
+	@Override
+	public BufferedImage getBulletImage() throws IOException {
+		return ImageIO.read(main.getImageFiles().get(7));
 	}
 }

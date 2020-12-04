@@ -10,16 +10,18 @@ public abstract class Bullet {
 	int pos_y = 0;
 	int[] vel;
 	public int timeAlive = 0;
+	public int speed = 1;
 	private BulletType type;
 	
 	
 	BulletObserver bo = new BulletObserver();
 	
-	public Bullet(int posx, int posy, int[] vel, BulletType type) {
+	public Bullet(int posx, int posy, int[] vel, BulletType type, int sp) {
 		pos_x = posx;
 		pos_y = posy;
 		this.vel = vel;
 		this.type = type;
+		speed = sp;
 	}
 	
 	public Bullet() {
@@ -47,8 +49,8 @@ public abstract class Bullet {
 	}
 	
 	public void Move() throws IOException {
-		pos_x += vel[0];
-		pos_y += vel[1];
+		pos_x += vel[0]*speed;
+		pos_y += vel[1]*speed;
 		//bo.update();
 		timeAlive++;
 	}

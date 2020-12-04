@@ -13,6 +13,7 @@ public abstract class FileSystemObject {
 	private String name;
 	protected FileSystemObject parent = null;
 	protected ArrayList children;
+	public static List<File> imageFiles = new ArrayList<File>();
 	
 	public FileSystemObject(String newName) {
 		name = newName;
@@ -34,11 +35,15 @@ public abstract class FileSystemObject {
 		
 		if(path.endsWith(".png")) { 
 			File f = new File(path);
-			main.imageFiles.add(f);	
+			imageFiles.add(f);	
 		}
 		
 		return path;
 		
+	}
+	
+	public List<File> getImageFiles(){
+		return imageFiles;
 	}
 	
 	public void getDir(){

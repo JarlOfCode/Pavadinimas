@@ -70,7 +70,7 @@ public class CircleEnemyTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void testIsHit() {
 		Bullet bullet = new FastBullet(0, 0, null, null);
 		CircleEnemy enemy = new CircleEnemy();
@@ -82,7 +82,7 @@ public class CircleEnemyTest {
 			System.out.println("Blogai");
 			throw e;
 		}
-	}
+	}*/
 
 	@Test
 	public void testExecutePattern() {

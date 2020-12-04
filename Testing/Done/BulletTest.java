@@ -50,7 +50,7 @@ public class BulletTest {
 		System.out.println("Gerai");
 	}*/
 
-	@Test
+	/*@Test
 	public void testSetGetX() {
 		Bullet b = new Small_Fast_Bullet(0, 0, null, null);
 		b.setX(1);
@@ -74,7 +74,7 @@ public class BulletTest {
 			throw e;
 		}
 		System.out.println("Gerai");
-	}
+	}*/
 
 	/*@Test
 	public void testSetGetFriendly() {
@@ -99,7 +99,7 @@ public class BulletTest {
 		System.out.println("Gerai");
 	}*/
 
-	@Test
+	/*@Test
 	public void testSetGetVel() {
 		Bullet b = new Small_Fast_Bullet(0, 0, null, null);
 		int[] d = { 5, 4 };
@@ -111,6 +111,6 @@ public class BulletTest {
 			throw e;
 		}
 		System.out.println("Gerai");
-	}
+	}*/
 
 }

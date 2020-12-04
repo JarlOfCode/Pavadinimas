@@ -1,7 +1,11 @@
 package FactoryAndBuilder;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import AbstractFactoryAndPrototype.BigBulletFactory;
 import AbstractFactoryAndPrototype.Big_Slow_Bullet;
@@ -16,11 +20,12 @@ import edu.ktu.signalrclient.main;
 
 public class SpiralEnemy implements Enemy {
 
-	File imageFile = main.imageFiles.get(3);
+	File imageFile = main.getImageFiles().get(3);
 	int xPos = 0;
 	int yPos = 0;
 	int HP = 4;
 	Patterns pattern = new Spiral();
+	boolean isDead =false;
 	
 	BigBulletFactory F = new BigBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
@@ -65,11 +70,18 @@ public class SpiralEnemy implements Enemy {
 	
 	
 	@Override
-	public void isHit(Bullet bullet) {
-		if(bullet.getFriendly() == false) {
-			this.HP -= 1;
+	public void isHit(int index) {
+		this.HP -= 1;
+		
+		if(this.HP == 0) {
+			this.isDead = true;
+			/*EnemyKiller ek = new EnemyKiller(this, "ek1", index);
+			ek.start();*/
+			main.enemies.removeEnemy(index);
 		}
+		
 	}
+
 
 	@Override
 	public void executePattern() throws InterruptedException {
@@ -81,7 +93,7 @@ public class SpiralEnemy implements Enemy {
 		double radians = c_degree*Math.PI/180.0;
 		int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
 		BulletType bt = main.bt.get("highEnemy");
-		Big_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt) ;
+		Big_Slow_Bullet b = F.createSlowBullet(getX()+55, getY()+55, bulletVelocity, bt, 1) ;
 		System.out.println("SpiralEnemy shot " + b.getClass() + " at " + c_degree + " degrees");
 		Bullets.add(b);
 	}
@@ -91,7 +103,7 @@ public class SpiralEnemy implements Enemy {
 		// METODAS KURIS NUKREIPIA KULKA RANDOM KRYPTIM
 		int[] a = { 0, 0 };
 		BulletType bt = new BulletType(6, false);
-		Big_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt) ;
+		Big_Slow_Bullet b = F.createSlowBullet(getX(), getY(), a, bt, 1) ;
 		System.out.println("SpiralEnemy shot random " + b.getClass());
 		Bullets.add(b);
 		
@@ -109,5 +121,20 @@ public class SpiralEnemy implements Enemy {
 	@Override
 	public void removeBullet(int u) {
 		Bullets.remove(u);
+	}
+	
+	@Override
+	public int getSize() {
+		return 65;
+	}
+
+	@Override
+	public int getBulletSize() {
+		return 20;
+	}
+	
+	@Override
+	public BufferedImage getBulletImage() throws IOException {
+		return ImageIO.read(main.getImageFiles().get(8));
 	}
 }

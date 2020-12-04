@@ -10,8 +10,8 @@ public class Small_Fast_Bullet extends FastBullet implements Cloneable {
 		super();
 	}
 	
-	public Small_Fast_Bullet(int posX, int posY, int[] vel, BulletType type) {
-		super(posX, posY, vel, type);
+	public Small_Fast_Bullet(int posX, int posY, int[] vel, BulletType type, int sp) {
+		super(posX, posY, vel, type,  sp);
 		// TODO Auto-generated constructor stub
 	}
 	

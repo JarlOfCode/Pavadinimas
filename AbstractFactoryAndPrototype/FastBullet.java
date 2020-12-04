@@ -7,8 +7,8 @@ import FlyweightAndState.BulletType;
 
 public class FastBullet extends Bullet {
 
-	public FastBullet(int posX, int posY, int[] vel, BulletType type) {
-		super(posX, posY, vel, type);
+	public FastBullet(int posX, int posY, int[] vel, BulletType type, int sp) {
+		super(posX, posY, vel, type, sp);
 		// TODO Auto-generated constructor stub
 	}
 
