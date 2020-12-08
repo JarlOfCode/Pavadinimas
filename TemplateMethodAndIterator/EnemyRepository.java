@@ -11,6 +11,7 @@ public class EnemyRepository implements Container {
 	
 	public void addEnemy(Enemy en) {
 		this.e.add(en);
+		//Maybe add proxy here?
 	}
 	
 	public void removeEnemy(int index) {

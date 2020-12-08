@@ -3,6 +3,6 @@ package Proxy;
 //import FactoryAndBuilder.Enemy;
 
 public interface enemyImage {
-	public void showEnemyImage();
+	public void showEnemyImage() throws InterruptedException;
 	
 }

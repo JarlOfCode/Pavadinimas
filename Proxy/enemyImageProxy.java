@@ -17,15 +17,15 @@ public class enemyImageProxy implements enemyImage{
 	}
 
 	@Override
-	public void showEnemyImage() {
+	public void showEnemyImage() throws InterruptedException {
 		if(eProxy == null) {
 			if(eImg == null) {
 				eImg = new ContEnemyImage(ePath);
 			}
 			eImg.showEnemyImage();
 		}else {
-			// custom action + 
-			eProxy.showEnemyImage();
+			if(eProxy != null)
+				eProxy.showEnemyImage();
 		}
 		
 	}

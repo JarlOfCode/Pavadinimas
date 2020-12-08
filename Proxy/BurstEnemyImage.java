@@ -5,11 +5,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import FactoryAndBuilder.BurstEnemy;
+
 public class BurstEnemyImage implements enemyImage{
 	
 	String imgPath;
 	int imgHeight;
 	int imgWidth;
+	
+	BurstEnemy BE = new BurstEnemy();
 	
 	public BurstEnemyImage(String srcPath) {
 		imgPath = srcPath;
@@ -24,10 +28,11 @@ public class BurstEnemyImage implements enemyImage{
 	}
 
 	@Override
-	public void showEnemyImage() {
+	public void showEnemyImage() throws InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("Burst enemy image " + imgPath + " is loaded");
 		System.out.println("img Height:" + imgHeight + " img Width:" + imgWidth);
+		BE.Spawn();
 	}
 
 }

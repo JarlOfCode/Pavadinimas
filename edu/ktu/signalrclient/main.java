@@ -220,6 +220,8 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 	}
 	
 	public static  void spawnEnemy(Enemy e) throws IOException{	
+		//Proxy would be nice here, but List complicates things
+		//e.spawn() needs to be accesed somehow
 		e.setX(getRandomX());
 		e.setY(getRandomY());
 		enemies.addEnemy(e);

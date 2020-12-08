@@ -3,7 +3,7 @@ package Proxy;
 import java.awt.Image;
 
 public class TestProxyContE {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		String path = "src/Enemy_Small_2.png";
 		
 		System.out.println("\n=== Proxy Cont Enemy Image ===");
