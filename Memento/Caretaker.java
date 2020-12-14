@@ -1,8 +1,11 @@
 package Memento;
 import java.util.*;
 
+import Visitor.InfoGiver;
+import Visitor.Visitor;
 
-public class Caretaker {
+
+public class Caretaker implements InfoGiver {
 
 	ArrayList<Memento> statesList;
 	
@@ -36,6 +39,15 @@ public class Caretaker {
 	
 	public int size(){
 		return statesList.size();
+	}
+
+	@Override
+	public String getInfo(Visitor visitor) {
+		return visitor.getInfo(this);
+	}
+	
+	public ArrayList<Memento> getList(){
+		return statesList;
 	}
 	
 }

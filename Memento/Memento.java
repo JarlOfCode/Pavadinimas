@@ -14,7 +14,7 @@ public class Memento {
 		state = newState;
 	}
 	
-	private State getState(){
+	public State getState(){
 		return state;
 	}
 	

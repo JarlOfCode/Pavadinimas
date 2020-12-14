@@ -15,7 +15,6 @@ public class Originator {
 	}
 	
 	public Originator(State newState){
-		System.out.println("Org created: " + newState);
 		state = newState;
 	}
 	
@@ -24,12 +23,10 @@ public class Originator {
 	}
 	
 	public void setState(State newState){
-		System.out.println("set state: " + newState);
 		state = newState;
 	}
 	
 	public Memento saveState(){
-		System.out.println("saved state: " + state);
 		return new Memento(state);
 	}
 	

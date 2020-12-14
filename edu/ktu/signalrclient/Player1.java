@@ -23,6 +23,8 @@ import FlyweightAndState.State;
 import Memento.Memento;
 import Observer.PlayerObserver;
 import TemplateMethodAndIterator.IIterator;
+import Visitor.InfoVisitor;
+import Visitor.Visitor;
 
 public class Player1 implements Player {
 	private int dx;
@@ -37,6 +39,8 @@ public class Player1 implements Player {
 	private int Speed = 10;
 	private PlayerObserver o = new PlayerObserver();
 	private boolean playing = false;
+
+	Visitor vis = new InfoVisitor();
 	
 	SmallBulletFactory F = new SmallBulletFactory();
 	List<Bullet> Bullets = new ArrayList<Bullet>();
@@ -228,6 +232,7 @@ public class Player1 implements Player {
 				main.currentSavedTime = "0";
 				State idleState = new IdleState(PlayerStateMediator);
 				changeState(idleState);
+				System.out.println(main.player.PlayerStateMediator.getCT().getInfo(vis));
 				try {
 					Thread.sleep(5);
 				} catch (InterruptedException e) {

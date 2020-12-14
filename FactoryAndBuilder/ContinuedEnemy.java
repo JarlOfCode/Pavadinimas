@@ -17,9 +17,11 @@ import Strategy.Burst;
 import Strategy.ContinuedFire;
 import Strategy.Patterns;
 import Strategy.ShootLooper;
+import Visitor.InfoGiver;
+import Visitor.Visitor;
 import edu.ktu.signalrclient.main;
 
-public class ContinuedEnemy implements Enemy {
+public class ContinuedEnemy implements Enemy, InfoGiver {
 
 	double speed = 5;
 	
@@ -160,6 +162,11 @@ public class ContinuedEnemy implements Enemy {
 	@Override
 	public BufferedImage getBulletImage() throws IOException {
 		return ImageIO.read(main.getImageFiles().get(6));
+	}
+
+	@Override
+	public String getInfo(Visitor visitor) {
+		return visitor.getInfo(this);
 	}
 }
 

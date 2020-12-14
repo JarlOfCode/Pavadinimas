@@ -250,12 +250,6 @@ public class main extends JFrame implements ActionListener, Action2<String, Stri
 		buttonsPanel.setLayout(new BorderLayout());
 		add(buttonsPanel, BorderLayout.SOUTH);
 		
-		
-		JButton button = new JButton("Spawn Random Enemy");
-		button.addActionListener(this);
-		buttonsPanel.add(button, BorderLayout.CENTER);
-		buttonCache.put(button.getText(), button);
-		
 		JButton buttonDown = new JButton("Start");
 		buttonDown.addActionListener(this);
 		buttonsPanel.add(buttonDown, BorderLayout.SOUTH);
