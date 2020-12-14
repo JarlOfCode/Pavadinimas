@@ -20,6 +20,7 @@ import FlyweightAndState.BulletType;
 import FlyweightAndState.IdleState;
 import FlyweightAndState.PlayingState;
 import FlyweightAndState.State;
+import Memento.Memento;
 import Observer.PlayerObserver;
 import TemplateMethodAndIterator.IIterator;
 
@@ -255,8 +256,9 @@ class FixIdle implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		State st = new IdleState(main.player.PlayerStateMediator);
-		main.player.PlayerStateMediator.changeState(st);
+		Memento restoreState = main.player.PlayerStateMediator.getCT().get (main.player.PlayerStateMediator.getCT().size() - 1);
+		
+		main.player.PlayerStateMediator.changeState(main.player.PlayerStateMediator.getORG().restoreState(restoreState));
 	}
 	
 	public void start () {

@@ -15,6 +15,7 @@ import FlyweightAndState.PlayingShootingState;
 import FlyweightAndState.PlayingState;
 import FlyweightAndState.State;
 import Memento.Caretaker;
+import Memento.Memento;
 import Memento.Originator;
 import TemplateMethodAndIterator.EnemyRepository;
 import TemplateMethodAndIterator.IIterator;
@@ -35,11 +36,17 @@ public class PlayerMediator implements Mediator {
 	
 	public void setState(State state) {
 		org.setState(state);
+
+		Memento state2 = org.saveState();
+		ct.add(state2);
 	}
 	
 	@Override
 	public void changeState(State state) {
 		org.setState(state);
+
+		Memento state2 = org.saveState();
+		ct.add(state2);
 	}
 	
 	@Override
@@ -76,6 +83,9 @@ public class PlayerMediator implements Mediator {
 	public String onPlay() {
 		if(org.getState().getClass() == IdleState.class) {
 			org.setState(new PlayingState(this));
+
+			Memento state2 = org.saveState();
+			ct.add(state2);
 			
 			main.isPlaying = true;
 			main.GS.setScore(0);
@@ -91,6 +101,8 @@ public class PlayerMediator implements Mediator {
 	public String onShoot() {
 		if(org.getState().getClass() == PlayingState.class) {
 			org.setState(new PlayingShootingState(this));
+			Memento state2 = org.saveState();
+			ct.add(state2);
 			
 			Shooter sh = new Shooter();
 			
@@ -109,6 +121,16 @@ public class PlayerMediator implements Mediator {
 	@Override
 	public State getState() {
 		return org.getState();
+	}
+	
+	@Override
+	public Caretaker getCT() {
+		return ct;
+	}
+	
+	@Override
+	public Originator getORG() {
+		return org;
 	}
 
 }

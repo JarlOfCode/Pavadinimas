@@ -6,12 +6,12 @@ public class Originator {
 
 	State state;
 	
-	public void restoreState(Memento memento){
+	public State restoreState(Memento memento){
 		
 		//this.state = restoreState.getState();
 		
 		memento.getState(this);
-		System.out.println("restore state: " + this.getState());
+		return this.getState();
 	}
 	
 	public Originator(State newState){
