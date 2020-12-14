@@ -56,6 +56,11 @@ public class CircleEnemy implements Enemy {
 	}
 	
 	@Override
+	public String getImagePath() {
+		return imageFile.getPath();
+	}
+	
+	@Override
 	public void setY(int y) {
 		this.yPos = y;
 	}

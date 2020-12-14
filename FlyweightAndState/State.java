@@ -13,4 +13,5 @@ public abstract class State {
 	
 	public abstract String onGetStats() throws InterruptedException;
 	public abstract String onPlay();
+	public abstract String onShoot();
 }

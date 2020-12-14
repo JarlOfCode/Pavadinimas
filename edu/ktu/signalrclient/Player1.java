@@ -18,6 +18,7 @@ import FactoryAndBuilder.Enemy;
 import FlyweightAndState.Bullet;
 import FlyweightAndState.BulletType;
 import FlyweightAndState.IdleState;
+import FlyweightAndState.PlayingState;
 import FlyweightAndState.State;
 import Observer.PlayerObserver;
 import TemplateMethodAndIterator.IIterator;
@@ -114,12 +115,17 @@ public class Player1 implements Player {
 	    
 	    public void playerShoot(){
 	    	//System.out.println("Player shot a bullet");
-			double radians = 270*Math.PI/180.0;
-			int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
-			BulletType bt = main.bt.get("highEnemy");
+	    	
+	    	if(PlayerStateMediator.onShoot() == "Shooting") {
+	    		System.out.println("Shot");
+	    		double radians = 270*Math.PI/180.0;
+				int[] bulletVelocity = { (int) (Math.cos(radians) * 7), (int) (Math.sin(radians) * 7) };
+				BulletType bt = main.bt.get("highEnemy");
 
-			Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt, 2) ;
-			Bullets.add(b);
+				Small_Fast_Bullet b = F.createFastBullet(getX()+25, getY()+25, bulletVelocity, bt, 2) ;
+				Bullets.add(b);
+	    	}
+			
 	    }
 
 	    public void keyPressed(KeyEvent e) throws IOException {
@@ -227,7 +233,37 @@ public class Player1 implements Player {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				FixIdle fi = new FixIdle();
+				fi.run();
 				HP = 6;
 			}
 		}
 }
+
+class FixIdle implements Runnable {
+	private Thread t;
+	private String threadName;
+	
+	FixIdle(){
+		threadName = "fixIdle";
+	}
+	
+	public void run() {
+		try {
+			Thread.sleep(210);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		State st = new IdleState(main.player.PlayerStateMediator);
+		main.player.PlayerStateMediator.changeState(st);
+	}
+	
+	public void start () {
+	      if (t == null) {
+	         t = new Thread (this, threadName);
+	         t.start ();
+	      }
+	  }
+}
+

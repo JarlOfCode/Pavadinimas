@@ -43,6 +43,11 @@ public class BurstEnemy implements Enemy {
 		return "burst";
 	}
 	
+	@Override
+	public String getImagePath() {
+		return imageFile.getPath();
+	}
+	
 	
 	@Override
 	public File getImage() {

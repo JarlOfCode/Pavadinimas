@@ -7,4 +7,5 @@ public interface Mediator {
 	public String onGetStats() throws InterruptedException;
 	public String onPlay();
 	public State getState();
+	public String onShoot();
 }

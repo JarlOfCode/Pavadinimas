@@ -32,4 +32,5 @@ File imageFile = null;
 	int getSize();
 	int getBulletSize();
 	BufferedImage getBulletImage() throws IOException;
+	String getImagePath();
 }

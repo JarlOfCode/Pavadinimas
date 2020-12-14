@@ -65,6 +65,11 @@ public class ContinuedEnemy implements Enemy {
 	}
 	
 	@Override
+	public String getImagePath() {
+		return imageFile.getPath();
+	}
+	
+	@Override
 	public void setX(int x) {
 		this.xPos = x;
 	}

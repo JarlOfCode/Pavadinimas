@@ -20,5 +20,10 @@ public class IdleState extends State {
 	public String onPlay() {
 		return PlayerStateMediator.onPlay();
 	}
+	
+	@Override
+	public String onShoot() {
+		return PlayerStateMediator.onShoot();
+	}
 
 }

@@ -3,11 +3,11 @@ package FlyweightAndState;
 import CompositeAndMediator.Mediator;
 import edu.ktu.signalrclient.Player1;
 
-public class PlayingState extends State {
+public class PlayingShootingState extends State {
 
 	private Mediator PlayerStateMediator;
 	
-	public PlayingState(Mediator PlayerStateMediator) {
+	public PlayingShootingState(Mediator PlayerStateMediator) {
 		super(PlayerStateMediator);
 	}
 
@@ -25,6 +25,4 @@ public class PlayingState extends State {
 	public String onShoot() {
 		return PlayerStateMediator.onShoot();
 	}
-
-
 }
