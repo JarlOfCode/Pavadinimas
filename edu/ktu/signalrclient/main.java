@@ -43,6 +43,7 @@ import FlyweightAndState.BulletType;
 import FlyweightAndState.IdleState;
 import FlyweightAndState.PlayingState;
 import FlyweightAndState.State;
+import Proxy.ContEnemyProxy;
 import TemplateMethodAndIterator.EnemyRepository;
 import TemplateMethodAndIterator.IIterator;
 import io.reactivex.*;
@@ -378,11 +379,15 @@ class Renderer implements Runnable {
 				EnemyRepository e = main.enemies;
 			
 				for(IIterator iter = e.getIterator(); iter.hasNext();) {
+					
 					Enemy E = (Enemy) iter.next();
+					Enemy Eprox = new ContEnemyProxy();
 					BufferedImage image = ImageIO.read(E.getImage());
+					BufferedImage imageProx = ImageIO.read(Eprox.getImage());
 					
 					if(!E.isDead) {
-						main.g.drawImage(image, E.getX(), E.getY(), null);
+						//main.g.drawImage(image, E.getX(), E.getY(), null);
+						main.g.drawImage(imageProx, E.getX(), E.getY(), null);
 					}
 					
 					for(int u = 0; u < E.getBullets().size(); u++) {
