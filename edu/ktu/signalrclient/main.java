@@ -383,6 +383,7 @@ class Renderer implements Runnable {
 					Enemy E = (Enemy) iter.next();
 					Enemy Eprox = new ContEnemyProxy();
 					BufferedImage image = ImageIO.read(E.getImage());
+					//Proxy is here
 					BufferedImage imageProx = ImageIO.read(Eprox.getImage());
 					
 					if(!E.isDead) {
